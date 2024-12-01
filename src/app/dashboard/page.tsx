@@ -16,12 +16,11 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from "@/components/ui/sidebar";
+import ContentRenderer from "@/components/ui/ContentRender";
+
 
 export default function Page() {
-  const [breadcrumb, setBreadcrumb] = useState<string[]>([
-    "",
-    "",
-  ]);
+  const [breadcrumb, setBreadcrumb] = useState<string[]>(["", ""]);
 
   return (
     <SidebarProvider>
@@ -57,12 +56,7 @@ export default function Page() {
 
         {/* Nội dung chính */}
         <div className="flex flex-1 flex-col gap-4 p-4">
-          {Array.from({ length: 24 }).map((_, index) => (
-            <div
-              key={index}
-              className="aspect-video h-12 w-full rounded-lg bg-muted/50"
-            />
-          ))}
+          <ContentRenderer breadcrumb={breadcrumb} />
         </div>
       </SidebarInset>
     </SidebarProvider>

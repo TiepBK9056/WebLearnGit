@@ -25,135 +25,113 @@ const data = {
   versions: ["1.0.1", "1.1.0-alpha", "2.0.0-beta1"],
   navMain: [
     {
-      title: "Getting Started",
+      title: "Introduction to Git",
       url: "#",
       items: [
         {
-          title: "Installation",
+          title: "VCS and Git",
           url: "#",
         },
         {
-          title: "Project Structure",
+          title: "Git init",
+          url: "#",
+        },
+        {
+          title: "Git clone",
           url: "#",
         },
       ],
     },
     {
-      title: "Building Your Application",
+      title: "Git Basics",
       url: "#",
       items: [
         {
-          title: "Routing",
+          title: "Git add",
           url: "#",
         },
         {
-          title: "Data Fetching",
+          title: "Git status",
           url: "#",
         },
         {
-          title: "Rendering",
+          title: "Git commit",
           url: "#",
         },
         {
-          title: "Caching",
-          url: "#",
-        },
-        {
-          title: "Styling",
-          url: "#",
-        },
-        {
-          title: "Optimizing",
-          url: "#",
-        },
-        {
-          title: "Configuring",
-          url: "#",
-        },
-        {
-          title: "Testing",
-          url: "#",
-        },
-        {
-          title: "Authentication",
-          url: "#",
-        },
-        {
-          title: "Deploying",
-          url: "#",
-        },
-        {
-          title: "Upgrading",
-          url: "#",
-        },
-        {
-          title: "Examples",
+          title: "View history with Git log",
           url: "#",
         },
       ],
     },
     {
-      title: "API Reference",
+      title: "Review & Undo",
       url: "#",
       items: [
         {
-          title: "Components",
+          title: "Git diff",
           url: "#",
         },
         {
-          title: "File Conventions",
-          url: "#",
-        },
-        {
-          title: "Functions",
-          url: "#",
-        },
-        {
-          title: "next.config.js Options",
-          url: "#",
-        },
-        {
-          title: "CLI",
-          url: "#",
-        },
-        {
-          title: "Edge Runtime",
+          title: "Git reset",
           url: "#",
         },
       ],
     },
     {
-      title: "Architecture",
+      title: "Repository Operations",
       url: "#",
       items: [
         {
-          title: "Accessibility",
+          title: "Git checkout",
           url: "#",
         },
         {
-          title: "Fast Refresh",
-          url: "#",
-        },
-        {
-          title: "Next.js Compiler",
-          url: "#",
-        },
-        {
-          title: "Supported Browsers",
-          url: "#",
-        },
-        {
-          title: "Turbopack",
+          title: "Core Git repository",
           url: "#",
         },
       ],
     },
     {
-      title: "Community",
+      title: "Branch Management",
       url: "#",
       items: [
         {
-          title: "Contribution Guide",
+          title: "Branching in Git",
+          url: "#",
+        },
+        {
+          title: "Git merge",
+          url: "#",
+        },
+        {
+          title: "Git rebase",
+          url: "#",
+        },
+      ],
+    },
+    {
+      title: "Remote Repositories",
+      url: "#",
+      items: [
+        {
+          title: "Git Remote Basics",
+          url: "#",
+        },
+        {
+          title: "Git remote",
+          url: "#",
+        },
+        {
+          title: "Git push",
+          url: "#",
+        },
+        {
+          title: "Git fetch",
+          url: "#",
+        },
+        {
+          title: "Git pull",
           url: "#",
         },
       ],
@@ -176,7 +154,7 @@ export function AppSidebar({
                   <GalleryVerticalEnd className="size-4" />
                 </div>
                 <div className="flex flex-col gap-0.5 leading-none">
-                  <span className="font-semibold">Documentation</span>
+                  <span className="font-semibold">Documentation Git</span>
                   <span className="">v1.0.0</span>
                 </div>
               </a>
@@ -204,7 +182,6 @@ export function AppSidebar({
                           <SidebarMenuSubItem key={subItem.title}>
                             <SidebarMenuSubButton
                               asChild
-                              isActive={subItem.isActive}
                               onClick={() =>
                                 onNavigate([item.title, subItem.title])
                               }
