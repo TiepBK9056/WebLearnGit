@@ -1,6 +1,11 @@
+import { Button } from "@/components/ui/button";
+import CustomButton from "@/components/ui/buttonnew";
 import { Separator } from "@radix-ui/react-separator";
 import Link from "next/link";
 import { ReactNode } from "react";
+
+
+
 
 const DashboardLayout = ({ children }: { children: ReactNode }) => {
   return (
@@ -18,10 +23,12 @@ const DashboardLayout = ({ children }: { children: ReactNode }) => {
 
           <nav>
             <ul className="flex space-x-4">
-              <li><Link href="/">Trang chủ</Link></li>
-              <li><Link href="/about">Giới thiệu</Link></li>
-              <li><Link href="/contact">Liên hệ</Link></li>
-              <li><Link href="/vizualize">Vizualize</Link></li>
+              <li className="grid place-items-center"><Link href="/">Trang chủ</Link></li>
+              <li className="grid place-items-center"><Link href="/about">Giới thiệu</Link></li>
+              <li className="grid place-items-center"><Link href="/contact">Liên hệ</Link></li>
+              <li className="grid place-items-center"><Link href="/vizualize">
+                <CustomButton label="Mô phỏng"/>
+              </Link></li>
             </ul>
           </nav>
         </div>

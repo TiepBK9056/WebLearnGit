@@ -12,7 +12,7 @@ const TerminalComponent = () => {
   useEffect(() => {
     const terminal = new Terminal({
         theme: {
-          background: '#2e2e2e',  // Thay đổi màu nền tại đây
+          background: '#2e2e2e',  // Thay đổi màu nền
           foreground: '#f1f1f1',   // Màu chữ
           cursor: 'yellow',       // Màu con trỏ
         },
@@ -35,7 +35,7 @@ const TerminalComponent = () => {
       };
 
       const charWidth = measureCharWidth(); // Lấy chiều rộng của một ký tự
-      const numColumns = 35;  // Số cột bạn muốn terminal có
+      const numColumns = 35;  // Số cột
       const newWidth = charWidth * numColumns;
 
       setWidth(newWidth);
