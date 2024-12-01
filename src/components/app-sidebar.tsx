@@ -49,7 +49,6 @@ const data = {
         {
           title: "Data Fetching",
           url: "#",
-          isActive: true,
         },
         {
           title: "Rendering",
@@ -162,7 +161,10 @@ const data = {
   ],
 }
 
-export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+export function AppSidebar({
+  onNavigate,
+  ...props
+}: React.ComponentProps<typeof Sidebar> & { onNavigate: (path: string[]) => void }) {
   return (
     <Sidebar {...props}>
       <SidebarHeader>
@@ -186,12 +188,8 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       <SidebarContent>
         <SidebarGroup>
           <SidebarMenu>
-            {data.navMain.map((item, index) => (
-              <Collapsible
-                key={item.title}
-                defaultOpen={index === 1}
-                className="group/collapsible"
-              >
+            {data.navMain.map((item) => (
+              <Collapsible key={item.title} className="group/collapsible">
                 <SidebarMenuItem>
                   <CollapsibleTrigger asChild>
                     <SidebarMenuButton>
@@ -202,13 +200,16 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                   {item.items?.length ? (
                     <CollapsibleContent>
                       <SidebarMenuSub>
-                        {item.items.map((item) => (
-                          <SidebarMenuSubItem key={item.title}>
+                        {item.items.map((subItem) => (
+                          <SidebarMenuSubItem key={subItem.title}>
                             <SidebarMenuSubButton
                               asChild
-                              isActive={item.isActive}
+                              isActive={subItem.isActive}
+                              onClick={() =>
+                                onNavigate([item.title, subItem.title])
+                              }
                             >
-                              <a href={item.url}>{item.title}</a>
+                              <a href={subItem.url}>{subItem.title}</a>
                             </SidebarMenuSubButton>
                           </SidebarMenuSubItem>
                         ))}
@@ -223,5 +224,6 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       </SidebarContent>
       <SidebarRail />
     </Sidebar>
-  )
+  );
 }
+
