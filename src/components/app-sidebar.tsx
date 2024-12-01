@@ -176,7 +176,7 @@ export function AppSidebar({
                   <GalleryVerticalEnd className="size-4" />
                 </div>
                 <div className="flex flex-col gap-0.5 leading-none">
-                  <span className="font-semibold">Documentation</span>
+                  <span className="font-semibold">Documentation Git</span>
                   <span className="">v1.0.0</span>
                 </div>
               </a>
@@ -204,7 +204,6 @@ export function AppSidebar({
                           <SidebarMenuSubItem key={subItem.title}>
                             <SidebarMenuSubButton
                               asChild
-                              isActive={subItem.isActive}
                               onClick={() =>
                                 onNavigate([item.title, subItem.title])
                               }
