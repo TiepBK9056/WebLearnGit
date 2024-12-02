@@ -3,7 +3,7 @@
 // ==============================================================
 import React, { useEffect, useState } from "react";
 
-export default function DataFetching() {
+export default function GitInit() {
   const [headings, setHeadings] = useState<{ id: string; text: string }[]>([]);
   const [activeHeadings, setActiveHeadings] = useState<string[]>([]);
 
@@ -54,10 +54,18 @@ export default function DataFetching() {
 {/* // ******************************************************************************************************
 // BEGIN IMPORTANT CODE
 // ******************************************************************************************************      */}
-      
+    {/* Nội dung chính bên trái đây là phần được chỉnh sửa */}
+    {/* Luôn để duy nhất 1 thẻ H1 ở mỗi trang */}
+    {/* Các tiêu đề chỉnh còn lại dùng thẻ H2 để được đưa lên sidebar bên phải*/}
+    {/* Nếu css luôn đặt tên lớp ngoài cùng = tên task. Ví dụ className = "GitInit" 
+    CSS luôn bắt đầu: 
+        TenTask<GitInit> + CSS-Selector {
+        // nội dung css ở đây    
+    }
+    */}  
       <div className="flex-1 p-6">
-        {/* Nội dung chính bên trái đây là phần được chỉnh sửa */}
-        <h1 className="text-3xl font-bold">Data Fetching in Next.js</h1>
+        
+        <h1 className="text-3xl font-bold">Hiện thực code Git Init tại đây!</h1>
         <p className="mt-4">
           Learn how to fetch data in Next.js using different methods like{" "}
           <code className="bg-gray-200 rounded px-1">getStaticProps</code>,{" "}
