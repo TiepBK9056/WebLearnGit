@@ -5,9 +5,8 @@ export const handleCommand = (command: string, term: Terminal) => {
     const userInput = command.trim();
     
     if (userInput.startsWith("mkdir")) {
-      // Kiểm tra chính xác lệnh 'mkdir' và cú pháp
       const args = userInput.split(" ");
-      if (args.length === 2 && args[0] === "mkdir") {  // Chỉ cho phép 'mkdir' chính xác
+      if (args.length === 2 && args[0] === "mkdir") {  // Kiểm tra cú pháp của 'mkdir'
         const folderName = args[1];
         if (folderName) {
           const fs = BrowserFS.BFSRequire('fs');
@@ -27,9 +26,11 @@ export const handleCommand = (command: string, term: Terminal) => {
         term.write("Error: Invalid 'mkdir' command syntax. Usage: mkdir <folderName>\r\n");
         term.write("$ ");  // Hiển thị lại dấu nhắc lệnh sau khi xử lý
       }
+    } else if (userInput === "clear") {  // Xử lý lệnh clear
+      term.clear();
+      term.write("$ ");  // Hiển thị lại dấu nhắc lệnh sau khi clear
     } else {
       term.write("Command not recognized.\r\n");
       term.write("$ ");  // Hiển thị lại dấu nhắc lệnh sau khi xử lý
     }
-  };
-  
+};
