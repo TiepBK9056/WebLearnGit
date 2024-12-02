@@ -38,9 +38,9 @@ const DashboardLayout = ({ children }: { children: ReactNode }) => {
       <main className="flex-1 p-4">{children}</main>
 
       {/* Footer nếu cần */}
-      <footer className="bg-gray-900 z-9999 text-white text-center p-4">
+      {/* <footer className="bg-gray-900 z-9999 text-white text-center p-4">
         Footer Content
-      </footer>
+      </footer> */}
     </div>
   );
 };

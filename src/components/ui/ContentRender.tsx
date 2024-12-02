@@ -1,3 +1,5 @@
+import DataFetching from "@/components/ui/datafetching";
+
 type ContentMap = {
     [main: string]: {
       [sub: string]: JSX.Element;
@@ -5,14 +7,10 @@ type ContentMap = {
   };
   
   const contentMap: ContentMap = {
-    "Building Your Application": {
-      "Routing": (
+    "Introduction to Git": {
+      "Git init": (
         <div>
-          <h1 className="text-xl font-bold">Routing in Next.js</h1>
-          <p>
-            Explore the routing system in Next.js and learn how to create dynamic
-            and nested routes.
-          </p>
+          <DataFetching/>
         </div>
       ),
       "Data Fetching": (

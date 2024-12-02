@@ -8,7 +8,7 @@ interface CustomButtonProps {
 const CustomButton: React.FC<CustomButtonProps> = ({ label, onClick }) => {
   return (
     <button
-      className="min-w-[200px] relative flex items-center justify-start bg-gradient-to-r from-cyan-400 to-purple-600 text-white font-medium text-base px-5 py-2.5 rounded-full shadow-lg transition-all duration-600 ease-out hover:shadow-2xl group uppercase"
+      className="min-w-[180px] relative flex items-center justify-start bg-gradient-to-r from-cyan-400 to-purple-600 text-white font-medium text-base px-5 py-2.5 rounded-full shadow-lg transition-all duration-600 ease-out hover:shadow-2xl group uppercase"
       onClick={onClick}
     >
       <span className="pl-5">{label}</span>

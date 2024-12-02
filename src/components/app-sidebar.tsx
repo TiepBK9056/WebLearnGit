@@ -1,11 +1,10 @@
-import * as React from "react"
-import { ChevronRight, GalleryVerticalEnd, Minus, Plus } from "lucide-react"
-import { SearchForm } from "@/components/search-form"
+import * as React from "react";
+import { ChevronRight, GalleryVerticalEnd } from "lucide-react";
 import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
-} from "@/components/ui/collapsible"
+} from "@/components/ui/collapsible";
 import {
   Sidebar,
   SidebarContent,
@@ -18,9 +17,8 @@ import {
   SidebarMenuSubButton,
   SidebarMenuSubItem,
   SidebarRail,
-} from "@/components/ui/sidebar"
+} from "@/components/ui/sidebar";
 
-// This is sample data.
 const data = {
   versions: ["1.0.1", "1.1.0-alpha", "2.0.0-beta1"],
   navMain: [
@@ -139,10 +137,13 @@ const data = {
   ],
 }
 
+
 export function AppSidebar({
   onNavigate,
   ...props
 }: React.ComponentProps<typeof Sidebar> & { onNavigate: (path: string[]) => void }) {
+  const [activeItem, setActiveItem] = React.useState<string>("");
+
   return (
     <Sidebar {...props}>
       <SidebarHeader>
@@ -161,7 +162,6 @@ export function AppSidebar({
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>
-        <SearchForm />
       </SidebarHeader>
       <SidebarContent>
         <SidebarGroup>
@@ -182,11 +182,21 @@ export function AppSidebar({
                           <SidebarMenuSubItem key={subItem.title}>
                             <SidebarMenuSubButton
                               asChild
-                              onClick={() =>
-                                onNavigate([item.title, subItem.title])
-                              }
+                              onClick={() => {
+                                setActiveItem(subItem.title); // Cập nhật trạng thái active
+                                onNavigate([item.title, subItem.title]);
+                              }}
                             >
-                              <a href={subItem.url}>{subItem.title}</a>
+                              <a
+                                href={subItem.url}
+                                className={`${
+                                  activeItem === subItem.title
+                                    ? "text-blue-600 font-bold" // Màu sắc khi active
+                                    : "text-gray-700"
+                                } hover:text-blue-500`}
+                              >
+                                {subItem.title}
+                              </a>
                             </SidebarMenuSubButton>
                           </SidebarMenuSubItem>
                         ))}
@@ -203,4 +213,3 @@ export function AppSidebar({
     </Sidebar>
   );
 }
-
