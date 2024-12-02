@@ -1,4 +1,7 @@
 import DataFetching from "@/components/ui/datafetching";
+import GitClone from "@/components/ui/introduction_to_git/GitClone";
+import GitInit from "@/components/ui/introduction_to_git/GitInit";
+import DataVCSGit from "@/components/ui/introduction_to_git/VCSAndGit";
 
 type ContentMap = {
     [main: string]: {
@@ -10,16 +13,17 @@ type ContentMap = {
     "Introduction to Git": {
       "Git init": (
         <div>
-          <DataFetching/>
+          <GitInit/>
         </div>
       ),
-      "Data Fetching": (
+      "VCS and Git": (
         <div>
-          <h1 className="text-xl font-bold">Data Fetching in Next.js</h1>
-          <p>
-            Learn how to fetch data in Next.js using different methods like
-            `getStaticProps`, `getServerSideProps`, and more.
-          </p>
+          <DataVCSGit/>
+        </div>
+      ),
+      "Git clone": (
+        <div>
+          <GitClone/>
         </div>
       ),
     },
