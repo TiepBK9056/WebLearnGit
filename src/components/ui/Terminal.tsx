@@ -4,7 +4,7 @@ import React, { useRef, useEffect, useState, useLayoutEffect } from "react";
 import { Terminal } from "xterm";
 import "xterm/css/xterm.css";
 import BrowserFS from 'browserfs';
-import { handleCommand } from '@/components/ui/Command/command';  // Import hàm handleCommand
+import { handleCommand } from '@/components/ui/Command/HandleCommand';  // Import hàm handleCommand
 
 const TerminalComponent = () => {
   const terminalRef = useRef(null);
