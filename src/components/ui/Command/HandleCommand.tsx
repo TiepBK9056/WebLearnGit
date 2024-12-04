@@ -4,6 +4,7 @@ import { handleCommandNotRecognized } from '@/components/ui/Command/CommandNotRe
 import { handleGitAddCommand } from '@/components/ui/Command/GitAdd';
 import { handleGitCommitCommand } from '@/components/ui/Command/GitCommit';
 import { handleGitInitCommand } from '@/components/ui/Command/GitInit';
+import { handleGitLogCommand } from '@/components/ui/Command/GitLog';
 import { handleGitStatusCommand } from '@/components/ui/Command/GitStatus';
 import { handleLsCommand } from '@/components/ui/Command/Ls';
 import { handleMkdirCommand } from '@/components/ui/Command/Mkdir';
@@ -30,6 +31,8 @@ export const handleCommand = (command: string, term: Terminal) => {
     handleTouchCommand(userInput, term);
   } else if (userInput.startsWith("ls")) {
     handleLsCommand(userInput, term);
+  }else if (userInput.startsWith("git log")) {
+    handleGitLogCommand(userInput, term);
   } else {
     handleCommandNotRecognized(term);
   }
