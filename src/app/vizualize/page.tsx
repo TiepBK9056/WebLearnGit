@@ -1,6 +1,7 @@
 // app/vizualize/page.tsx
 
 import TerminalComponent from '@/components/ui/Terminal';
+import VizualizeComponent from '@/components/ui/Vizualize/VizualizeComponent';
 
 const VizualizePage = () => {
   return (
