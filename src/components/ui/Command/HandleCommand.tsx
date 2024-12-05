@@ -3,6 +3,7 @@ import { handleClearCommand } from '@/components/ui/Command/Clear';
 import { handleCommandNotRecognized } from '@/components/ui/Command/CommandNotRecognized';
 import { handleGitAddCommand } from '@/components/ui/Command/GitAdd';
 import { handleGitBranchCommand } from '@/components/ui/Command/GitBanch';
+import { handleGitCheckoutCommand } from '@/components/ui/Command/GitCheckout';
 import { handleGitCommitCommand } from '@/components/ui/Command/GitCommit';
 import { handleGitInitCommand } from '@/components/ui/Command/GitInit';
 import { handleGitLogCommand } from '@/components/ui/Command/GitLog';
@@ -34,6 +35,8 @@ export const handleCommand = (command: string, term: Terminal) => {
     handleGitBranchCommand(userInput, term);
   } else if (userInput.startsWith("ls")) {
     handleLsCommand(userInput, term);
+  } else if (userInput.startsWith("git checkout")) {  // Xử lý lệnh git checkout
+    handleGitCheckoutCommand(userInput, term);
   } else if (userInput.startsWith("git log")) {
     handleGitLogCommand(userInput, term);
   } else {
