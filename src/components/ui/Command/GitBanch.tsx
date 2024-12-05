@@ -13,14 +13,21 @@ export const handleGitBranchCommand = async (command: string, term: Terminal) =>
     
     if (args.length === 2) {
       // Nếu chỉ có "git branch", liệt kê tất cả các nhánh
+
       const branches = await git.listBranches({ fs, dir });
-      
+      const currentBranch = await git.currentBranch({ fs, dir });
+
       term.writeln('Git Branches:');
       if (branches.length === 1) {
         term.writeln('No branches available.');
       } else {
         branches.forEach(branch => {
-          term.writeln(`* ${branch}`);
+          if (branch === currentBranch) {
+            // Tô màu nhánh hiện tại
+            term.write(`\x1b[32m* ${branch}\x1b[0m\r\n`);  // Màu xanh cho nhánh hiện tại
+          } else {
+            term.writeln(`  ${branch}`);
+          }
         });
       }
     } else if (args.length === 3) {
