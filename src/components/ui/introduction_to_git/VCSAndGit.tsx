@@ -64,9 +64,9 @@ export default function DataVCSGit() {
     }
     */}  
     
-      <div className = "VCSAndGit">
+      
 
-      <div className="flex-1 p-6 vcs">
+      <div className="flex-1 p-6 vcs VCSAndGit">
 
         {/* Nội dung chính bên trái đây là phần được chỉnh sửa */}
         <h1 className="text-3xl font-bold">Giới thiệu về hệ thống quản lý phiên bản Git (Version Control System - VCS)</h1>
@@ -140,8 +140,8 @@ export default function DataVCSGit() {
         </h4>
 
         <p className="mt-4">
-        DVCS là hệ thống quản lý phiên bản phân tán, trong đó mỗi lập trình viên có một bản sao đầy đủ của kho chứa trên máy tính của mình. 
-        Điều này cho phép họ làm việc độc lập và đồng bộ hóa với kho chứa từ xa khi có kết nối.
+          DVCS là hệ thống quản lý phiên bản phân tán, trong đó mỗi lập trình viên có một bản sao đầy đủ của kho chứa trên máy tính của mình. 
+          Điều này cho phép họ làm việc độc lập và đồng bộ hóa với kho chứa từ xa khi có kết nối.
         </p>
 
         <p className="mt-2">
@@ -174,8 +174,8 @@ export default function DataVCSGit() {
         <li className="mt-2">Cần có kiến thức về cách quản lý kho chứa phân tán, đặc biệt là trong việc hợp nhất các thay đổi (merge conflicts).</li>
         <li className="mt-2">Quá trình quản lý các kho chứa từ xa (ví dụ: GitHub, GitLab) yêu cầu cấu hình và kiến thức về các công cụ CI/CD nếu sử dụng.</li>
         
+        
         </div>
-
 
 
 {/* // ******************************************************************************************************
