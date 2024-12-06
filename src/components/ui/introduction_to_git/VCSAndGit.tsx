@@ -63,7 +63,7 @@ export default function DataVCSGit() {
         // nội dung css ở đây    
     }
     */}  
-      <div className="flex-1 p-6">
+      <div className="flex-1 p-6 vcs">
         {/* Nội dung chính bên trái đây là phần được chỉnh sửa */}
         <h1 className="text-3xl font-bold">Hiện thực code VCS and Git tại đây!</h1>
         <p className="mt-4">
