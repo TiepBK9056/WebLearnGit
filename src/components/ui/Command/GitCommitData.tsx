@@ -13,21 +13,32 @@ interface CommitNode {
 }
 
 export const handleGitCommitDataCommand = async (): Promise<CommitNode[]> => {
-  try {
-    // Lấy danh sách commit từ Git
-    const commits = await git.log({ fs, dir });
-
-    // Chuyển đổi dữ liệu commit thành cấu trúc CommitNode
-    const commitData: CommitNode[] = commits.map((commit) => ({
-      id: commit.oid,
-      message: commit.commit.message,
-      parentIds: commit.commit.parent || [],
-      children: [], // Children sẽ được xử lý sau nếu cần
-    }));
-
-    return commitData; // Trả về mảng commitData
-  } catch (error) {
-    console.error("Error fetching git commit data: ", error);
-    return []; // Trả về mảng rỗng nếu lỗi
-  }
-};
+    try {
+      const commits = await git.log({ fs, dir });
+  
+      // Tạo ánh xạ oid -> id mới (c1, c2, ...)
+      const oidToIdMap: { [key: string]: string } = {};
+  
+      // Gán nhãn và tạo ánh xạ
+      const commitData: CommitNode[] = commits.map((commit, index) => {
+        const newId = `c${index + 1}`; // Gán id mới (c1, c2, ...)
+        oidToIdMap[commit.oid] = newId; // Lưu ánh xạ
+        return {
+          id: newId,
+          message: commit.commit.message,
+          parentIds: commit.commit.parent || [], // Giữ nguyên oid của parent ban đầu
+          children: [],
+        };
+      });
+  
+      // Cập nhật parentIds sang id mới
+      commitData.forEach((commit) => {
+        commit.parentIds = commit.parentIds.map((oid) => oidToIdMap[oid] || oid);
+      });
+  
+      return commitData; // Trả về danh sách commit đã được gán nhãn
+    } catch (error) {
+      console.error("Error fetching git commit data: ", error);
+      return [];
+    }
+  };

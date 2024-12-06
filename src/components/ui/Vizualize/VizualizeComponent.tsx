@@ -34,15 +34,13 @@ const VizualizeComponent = () => {
       const root = d3.hierarchy(buildTree(commitsData), (d: CommitNode) => d.children);
       const width = 900;
       const height = 800;
+      const nodeRadius = 30; // Bán kính node
       const svg = d3.select('#gitTree')
                     .attr('width', width)
                     .attr('height', height);
   
-      const treeLayout = d3.tree().size([width, height]);
+      const treeLayout = d3.tree().size([width - 2 * nodeRadius, height - 2 * nodeRadius]);
       treeLayout(root);
-
-      // Bán kính node
-      const nodeRadius = 30;
 
       // Vẽ các liên kết (edges)
       svg.selectAll('.link')
@@ -50,33 +48,32 @@ const VizualizeComponent = () => {
         .enter()
         .append('line')
         .attr('class', 'link')
-        .attr('x1', (d: any) => d.source.x)
-        .attr('y1', (d: any) => d.source.y)
-        .attr('x2', (d: any) => d.target.x)
-        .attr('y2', (d: any) => d.target.y)
+        .attr('x1', (d: any) => d.source.x + nodeRadius)
+        .attr('y1', (d: any) => d.source.y + nodeRadius)
+        .attr('x2', (d: any) => d.target.x + nodeRadius)
+        .attr('y2', (d: any) => d.target.y + nodeRadius)
         .style('stroke', '#ccc');
   
       // Vẽ các node (commits)
-      svg.selectAll('.node')
+      const nodes = svg.selectAll('.node')
         .data(root.descendants())
         .enter()
-        .append('circle')
+        .append('g') // Sử dụng nhóm `<g>` để nhóm node và text
+        .attr('class', 'node-group')
+        .attr('transform', (d: any) => `translate(${d.x + nodeRadius}, ${d.y + nodeRadius})`); // Dịch vị trí cả nhóm
+
+      nodes.append('circle')
         .attr('class', 'node')
-        .attr('cx', (d: any) => d.x)
-        .attr('cy', (d: any) => d.y)
         .attr('r', nodeRadius)
         .style('fill', '#ff5733');
-  
-      // Thêm nhãn cho các node (commit message hoặc ID)
-      svg.selectAll('.text')
-        .data(root.descendants())
-        .enter()
-        .append('text')
-        .attr('class', 'text')
-        .attr('x', (d: any) => d.x - nodeRadius)
-        .attr('y', (d: any) => d.y + 5)
-        .text((d: any) => d.data.id + ': ' + d.data.message)
-        .style('fill', 'white');
+
+      nodes.append('text') // Thêm text vào giữa node
+        .attr('class', 'node-text')
+        .attr('text-anchor', 'middle') // Căn giữa theo chiều ngang
+        .attr('alignment-baseline', 'middle') // Căn giữa theo chiều dọc
+        .text((d: any) => d.data.id) // Hiển thị ID trong node
+        .style('fill', 'white')
+        .style('font-size', '12px');
     }
   }, [commitsData]);
 
