@@ -113,7 +113,7 @@ export default function GitInit() {
 // DO NOT EDIT ABOVE THIS LINE
 // ============================================================================================ */}
       {/* Danh sách bên phải */}
-      <div className="w-1/4 p-6 bg-gray-100 sticky top-[170px] h-[400px]">
+      <div className="w-1/4 p-6 bg-gray-100 sticky top-[160px] h-[400px]">
         <h3 className="text-lg font-bold mb-4">On this page</h3>
         <ul className="space-y-2">
           {headings.map((heading) => (
