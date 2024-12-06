@@ -1,4 +1,6 @@
 import DataFetching from "@/components/ui/datafetching";
+import GitAdd from "@/components/ui/GitBasics/GitAdd";
+import GitStatus from "@/components/ui/GitBasics/GitStatus";
 import GitClone from "@/components/ui/introduction_to_git/GitClone";
 import GitInit from "@/components/ui/introduction_to_git/GitInit";
 import DataVCSGit from "@/components/ui/introduction_to_git/VCSAndGit";
@@ -24,6 +26,17 @@ type ContentMap = {
       "Git clone": (
         <div>
           <GitClone/>
+        </div>
+      ),
+    },
+    "Git Basics": {
+      "Git add": (
+        <div>
+          <GitAdd/>
+        </div>
+      ),"Git status": (
+        <div>
+          <GitStatus/>
         </div>
       ),
     },
