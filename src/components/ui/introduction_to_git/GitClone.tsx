@@ -63,7 +63,8 @@ export default function GitClone() {
         // nội dung css ở đây    
     }
     */}
-      <div className="flex-1 p-6">
+      <div className="flex-1 p-6 ">
+        <p> Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis, impedit.</p>
         
         <h1 className="text-3xl font-bold">Hiện thực trang Git Clone tại Đây</h1>
         <p className="mt-4">
