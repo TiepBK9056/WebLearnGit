@@ -3,7 +3,7 @@
 // ==============================================================
 import React, { useEffect, useState } from "react";
 
-export default function GitInit() {
+export default function GitLog() {
   const [headings, setHeadings] = useState<{ id: string; text: string }[]>([]);
   const [activeHeadings, setActiveHeadings] = useState<string[]>([]);
 
@@ -52,20 +52,20 @@ export default function GitInit() {
 
 
 {/* // ******************************************************************************************************
-// BEGIN IMPORTANT CODE
+// BEGIN CODE HERE
 // ******************************************************************************************************      */}
     {/* Nội dung chính bên trái đây là phần được chỉnh sửa */}
     {/* Luôn để duy nhất 1 thẻ H1 ở mỗi trang */}
     {/* Các tiêu đề chỉnh còn lại dùng thẻ H2 để được đưa lên sidebar bên phải*/}
-    {/* Nếu css luôn đặt tên lớp ngoài cùng = tên task. Ví dụ className = "GitInit" 
+    {/* Nếu css luôn đặt tên lớp ngoài cùng = tên task. Ví dụ className = "GitLog" 
     CSS luôn bắt đầu: 
-        TenTask<GitInit> + CSS-Selector {
+        TenTask<GitLog> + CSS-Selector {
         // nội dung css ở đây    
     }
-    */}  
+    */}
       <div className="flex-1 p-6">
         
-        <h1 className="text-3xl font-bold">Hiện thực code Git Init tại đây!</h1>
+        <h1 className="text-3xl font-bold">Hiện thực trang Git Log tại Đây</h1>
         <p className="mt-4">
           Learn how to fetch data in Next.js using different methods like{" "}
           <code className="bg-gray-200 rounded px-1">getStaticProps</code>,{" "}
@@ -113,7 +113,7 @@ export default function GitInit() {
 // DO NOT EDIT ABOVE THIS LINE
 // ============================================================================================ */}
       {/* Danh sách bên phải */}
-      <div className="w-1/4 p-6 bg-gray-100 sticky top-[160px] h-[400px]">
+      <div className="w-1/4 p-6 bg-gray-100 sticky top-[170px] h-[400px]">
         <h3 className="text-lg font-bold mb-4">On this page</h3>
         <ul className="space-y-2">
           {headings.map((heading) => (
