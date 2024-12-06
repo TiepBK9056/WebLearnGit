@@ -64,8 +64,10 @@ export default function DataVCSGit() {
     }
     */}  
     
-      <div className="flex-1 p-6">
       <div className = "VCSAndGit">
+
+      <div className="flex-1 p-6 vcs">
+
         {/* Nội dung chính bên trái đây là phần được chỉnh sửa */}
         <h1 className="text-3xl font-bold">Giới thiệu về hệ thống quản lý phiên bản Git (Version Control System - VCS)</h1>
         <p className="mt-4">
@@ -173,7 +175,6 @@ export default function DataVCSGit() {
         <li className="mt-2">Quá trình quản lý các kho chứa từ xa (ví dụ: GitHub, GitLab) yêu cầu cấu hình và kiến thức về các công cụ CI/CD nếu sử dụng.</li>
         
         </div>
-      </div>
 
 
 

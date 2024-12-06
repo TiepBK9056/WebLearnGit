@@ -26,6 +26,7 @@
     background-color: hsl(212.7 26.8% 83.9%);
     top: 65px;
   }
+
 .VCSAndGit .list-items {
   list-style-type: circle;
   padding-left: 20px;      
@@ -35,3 +36,18 @@
   margin-bottom: 10px;     
   line-height: 1.6;        
 }
+
+  .header::after {
+    content: "";
+    width: 100vw;
+    height: 85px;
+    position: fixed;
+    top: 64px;
+    background-color: #fff;
+    border-top: 1px solid red;
+  }
+
+  .vcs {
+    background-color: red;
+  }
+
