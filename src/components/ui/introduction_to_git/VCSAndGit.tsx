@@ -173,9 +173,9 @@ export default function DataVCSGit() {
 
         <li className="mt-2">Cần có kiến thức về cách quản lý kho chứa phân tán, đặc biệt là trong việc hợp nhất các thay đổi (merge conflicts).</li>
         <li className="mt-2">Quá trình quản lý các kho chứa từ xa (ví dụ: GitHub, GitLab) yêu cầu cấu hình và kiến thức về các công cụ CI/CD nếu sử dụng.</li>
-        
+        <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Voluptatibus, reprehenderit.</p>
         </div>
-
+        </div>
 
 
 {/* // ******************************************************************************************************
