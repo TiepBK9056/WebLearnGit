@@ -5,6 +5,7 @@ import { handleGitAddCommand } from '@/components/ui/Command/GitAdd';
 import { handleGitBranchCommand } from '@/components/ui/Command/GitBanch';
 import { handleGitCheckoutCommand } from '@/components/ui/Command/GitCheckout';
 import { handleGitCommitCommand } from '@/components/ui/Command/GitCommit';
+import { handleGitCommitDataCommand } from '@/components/ui/Command/GitCommitData';
 import { handleGitInitCommand } from '@/components/ui/Command/GitInit';
 import { handleGitLogCommand } from '@/components/ui/Command/GitLog';
 import { handleGitStatusCommand } from '@/components/ui/Command/GitStatus';

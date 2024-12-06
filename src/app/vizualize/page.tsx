@@ -11,6 +11,7 @@ const VizualizePage = () => {
       </div>
       <div className="flex-1 ml-4">
         {/* Phần vẽ cây vizualize sẽ được đặt ở đây */}
+        <VizualizeComponent />
         <div className="rounded-lg p-4">
           <div className="MauMe fixed right-[-80px] top-[-100px]">
             <div className="pyramid-loader">
