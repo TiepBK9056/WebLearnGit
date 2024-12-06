@@ -9,7 +9,7 @@ interface CommitNode {
   id: string;
   message: string;
   parentIds: string[];
-  children: CommitNode[]; // `children` là một mảng các CommitNode
+  children: CommitNode[];
 }
 
 const VizualizeComponent = () => {
@@ -29,9 +29,12 @@ const VizualizeComponent = () => {
   }, []);
 
   useEffect(() => {
+    // Sắp xếp các commit từ lớn nhất đến nhỏ nhất
+    const sortedCommitsData = [...commitsData].sort((a, b) => b.id.localeCompare(a.id));
+
     // Vẽ cây Git bằng D3.js
-    if (commitsData.length > 0) {
-      const root = d3.hierarchy(buildTree(commitsData), (d: CommitNode) => d.children);
+    if (sortedCommitsData.length > 0) {
+      const root = d3.hierarchy(buildTree(sortedCommitsData), (d: CommitNode) => d.children);
       const width = 900;
       const height = 800;
       const nodeRadius = 30; // Bán kính node
@@ -42,18 +45,36 @@ const VizualizeComponent = () => {
       const treeLayout = d3.tree().size([width - 2 * nodeRadius, height - 2 * nodeRadius]);
       treeLayout(root);
 
-      // Vẽ các liên kết (edges)
+      // Định nghĩa marker cho mũi tên
+      svg.append('defs').append('marker')
+        .attr('id', 'arrow')
+        .attr('viewBox', '0 -3 6 6') // Điều chỉnh viewBox để mũi tên nhỏ lại
+        .attr('refX', 6)  // Đưa mũi tên vào cuối đoạn đường nối (bằng bán kính node)
+        .attr('refY', 0)
+        .attr('markerWidth', 6)  // Kích thước mũi tên nhỏ hơn
+        .attr('markerHeight', 6) // Kích thước mũi tên nhỏ hơn
+        .attr('orient', 'auto')
+        .append('path')
+        .attr('d', 'M0,-3L6,0L0,3')  // Tạo mũi tên nhỏ
+        .attr('fill', '#fff');
+
+      // Vẽ các liên kết (edges) và "lùi" đường nối ra ngoài viền node một chút
+      const offsetX = 0; // Lùi đường nối theo chiều ngang
+      const offsetY = -30; // Lùi đường nối theo chiều dọc
+
       svg.selectAll('.link')
         .data(root.links())
         .enter()
         .append('line')
         .attr('class', 'link')
-        .attr('x1', (d: any) => d.source.x + nodeRadius)
-        .attr('y1', (d: any) => d.source.y + nodeRadius)
-        .attr('x2', (d: any) => d.target.x + nodeRadius)
-        .attr('y2', (d: any) => d.target.y + nodeRadius)
-        .style('stroke', '#ccc');
-  
+        .attr('x1', (d: any) => d.source.x + nodeRadius + offsetX) // Điều chỉnh vị trí bắt đầu (lùi ra ngoài chút)
+        .attr('y1', (d: any) => d.source.y + nodeRadius + offsetY) // Điều chỉnh vị trí bắt đầu (lùi ra ngoài chút)
+        .attr('x2', (d: any) => d.target.x + nodeRadius + offsetX) // Điều chỉnh vị trí kết thúc (lùi ra ngoài chút)
+        .attr('y2', (d: any) => d.target.y + nodeRadius + offsetY) // Điều chỉnh vị trí kết thúc (lùi ra ngoài chút)
+        .style('stroke', '#ccc')
+        .style('stroke-width', 2)
+        .attr('marker-end', 'url(#arrow)');  // Thêm mũi tên vào cuối đường nối
+
       // Vẽ các node (commits)
       const nodes = svg.selectAll('.node')
         .data(root.descendants())
@@ -71,7 +92,7 @@ const VizualizeComponent = () => {
         .attr('class', 'node-text')
         .attr('text-anchor', 'middle') // Căn giữa theo chiều ngang
         .attr('alignment-baseline', 'middle') // Căn giữa theo chiều dọc
-        .text((d: any) => d.data.id) // Hiển thị ID trong node
+        .text((d: any) => `${d.data.id}: ${d.data.message}`) // Hiển thị ID trong node
         .style('fill', 'white')
         .style('font-size', '12px');
     }
