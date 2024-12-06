@@ -63,43 +63,118 @@ export default function DataVCSGit() {
         // nội dung css ở đây    
     }
     */}  
+    
+      <div className = "VCSAndGit">
+
       <div className="flex-1 p-6 vcs">
+
         {/* Nội dung chính bên trái đây là phần được chỉnh sửa */}
-        <h1 className="text-3xl font-bold">Hiện thực code VCS and Git tại đây!</h1>
+        <h1 className="text-3xl font-bold">Giới thiệu về hệ thống quản lý phiên bản Git (Version Control System - VCS)</h1>
         <p className="mt-4">
-          Learn how to fetch data in Next.js using different methods like{" "}
-          <code className="bg-gray-200 rounded px-1">getStaticProps</code>,{" "}
-          <code className="bg-gray-200 rounded px-1">getServerSideProps</code>,
-          and more.
+          Chúng ta sẽ được tìm hiểu khái niệm cơ bản về VCS, hệ thống quản lý phiên bản Git, cách cài đặt Git, nguyên lý hoạt động cơ bản của Git, cấu hình tham số chung cho Git ...
         </p>
-        <h2 id="getStaticProps" className="text-2xl font-semibold mt-8">
-          Using getStaticProps
+        <h2 className="text-2xl font-semibold mt-8">
+          I, Hệ Thống Quản Lý Phiên Bản VCS (Version Control System).       
         </h2>
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatibus, incidunt ad vitae sint ipsum eum, ipsam sapiente cumque dignissimos animi maiores repellendus! Totam harum hic debitis voluptatibus esse provident. Tenetur corrupti iusto eos cum laudantium repellat doloribus possimus corporis libero debitis blanditiis consectetur quas sapiente animi, labore nam ipsam delectus, dicta numquam voluptas eveniet nostrum. Beatae unde maxime, vitae sapiente perspiciatis ad commodi impedit eum, numquam tempore suscipit asperiores? Mollitia numquam vel dolorum unde, nostrum sint quod. Expedita totam quidem quis, praesentium velit officia blanditiis repellendus molestiae. Officiis autem soluta numquam ex obcaecati neque, rem a omnis praesentium deleniti, sint consectetur ratione tenetur aperiam sed quisquam corrupti quaerat. Nisi minus aliquid deleniti quo ratione, voluptatum, sit pariatur odio corporis consequatur rerum tenetur quos in, earum amet deserunt. Expedita officiis odio commodi beatae earum architecto soluta? Temporibus ea doloribus quasi quo consectetur laborum impedit nemo ducimus sunt cupiditate voluptatem placeat, optio voluptate id eligendi modi! Totam accusamus nihil illo exercitationem amet temporibus aliquam iusto. Ipsum laudantium aut est aliquid. Assumenda numquam ab nulla soluta culpa voluptatum obcaecati tempora possimus. Vel, animi quod. Vero inventore porro sapiente, error vitae at. Officiis eos nostrum voluptatem animi vero, saepe repellat reprehenderit. Fugit nostrum sint explicabo unde exercitationem voluptatem quidem laudantium perspiciatis maiores distinctio sapiente quo ipsa iusto quasi expedita quam aspernatur dicta nemo, ea eos quod, modi soluta? Sit expedita laudantium nobis aliquam laborum et necessitatibus iure, veniam ducimus esse in impedit modi quidem atque? Id cumque, consequatur pariatur ut a harum voluptatibus expedita optio impedit fugiat repellendus necessitatibus voluptates temporibus commodi veniam magni natus molestiae accusantium, similique esse enim autem. Totam quas officia ducimus adipisci? At reprehenderit eum ducimus voluptates pariatur sequi nobis molestias nostrum sit deserunt. Assumenda sit quibusdam dignissimos? Esse perferendis velit commodi, accusantium quisquam amet impedit. Praesentium amet aut unde?</p>
-        <p className="mt-4">
-          The <code className="bg-gray-200 rounded px-1">getStaticProps</code>{" "}
-          function allows you to fetch data at build time...
+        <p>
+        <b>Version Control System (VCS)</b> là công cụ giúp quản lý và theo dõi các thay đổi trong mã nguồn hoặc tài liệu của dự án. 
+                  Nó cho phép bạn làm việc với nhiều phiên bản của dự án, khôi phục các thay đổi trước đó và hợp tác hiệu quả với các thành viên trong nhóm,...
+                  Chúng ta có thể sử dụng nhiều hệ thống VCS như: Concurrent Versions System, Subversion, Git, Mercurial
         </p>
-        <h2 id="getServerSideProps" className="text-2xl font-semibold mt-8">
-          Using getServerSideProps
-        </h2>
+          <p><strong>Ở đây chúng tôi sẽ tập trung giới thiệu về Git</strong></p>
+        <h3  className="text-xl font-semibold mt-8">
+          1. Sự cần thiết của VSC?
+        </h3>
+        <ul className="list-items">
+          <li><strong>Theo dõi thay đổi</strong>: Lưu lại lịch sử mọi thay đổi trong mã nguồn.</li>
+          <li><strong>Làm việc nhóm</strong>: Cho phép nhiều người cùng làm việc trên một dự án mà không xung đột dữ liệu.</li>
+          <li><strong>Khôi phục phiên bản</strong>: Dễ dàng quay lại các phiên bản trước nếu có sự cố.</li>
+        </ul>
+        <h3 className="text-xl font-semibold mt-6">
+          2. Các Loại Hệ Thống Quản Lý Phiên Bản (VCS) và So Sánh
+        </h3>
         <p className="mt-4">
-          The <code className="bg-gray-200 rounded px-1">getServerSideProps</code>{" "}
-          function allows you to fetch data at request time...
+        Hệ thống quản lý phiên bản (VCS) có thể được phân loại thành hai loại chính dựa trên cách thức hoạt động và cách chúng tổ chức dữ liệu: 
+        <ul className="list-items">
+        <li><strong>Centralized Version Control System (CVCS)</strong></li>
+        <li><strong>Distributed Version Control System (DVCS)</strong></li>
+        </ul>
         </p>
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloribus voluptatem labore hic sequi quisquam dolor. Cumque eos nostrum deserunt magnam. Ut assumenda optio perspiciatis necessitatibus, quo eligendi quisquam laudantium dolorum suscipit rerum placeat a ipsa culpa fuga neque voluptatum, blanditiis reprehenderit, iure facere adipisci non rem ad quam. Quisquam esse harum est incidunt nam velit commodi molestiae fuga molestias laudantium maiores, quasi tempora qui itaque temporibus assumenda quo totam nesciunt eaque doloribus dolorem expedita a voluptates unde. Ipsum architecto incidunt, optio necessitatibus quod voluptates dignissimos non. Dolor ratione natus mollitia atque repellendus rem, asperiores, pariatur eveniet impedit inventore dignissimos aliquam dolorum, ad blanditiis error doloribus odit sequi laboriosam repudiandae. Excepturi quasi sint adipisci optio modi accusamus, quod aut maiores recusandae quibusdam, ipsam doloribus culpa sed consequatur, praesentium iusto illum delectus tempora deleniti unde laudantium nihil quaerat magnam doloremque? Aspernatur, similique neque ipsum expedita sit dignissimos. Itaque numquam amet sed, natus impedit quam fugit neque ducimus nisi, tempora, sapiente ratione eligendi nesciunt animi asperiores illo distinctio possimus. Esse assumenda quasi reiciendis alias, veniam eos vero eum dolore tempore, eveniet quia rerum hic voluptatum quibusdam in consequuntur doloremque. Nam accusantium quae harum a sit commodi eos consequuntur in vero autem voluptas nemo, atque, odio accusamus, cumque dicta culpa ab obcaecati? Quam vel veritatis voluptas, voluptatibus cumque veniam cupiditate velit voluptatum earum error quaerat, recusandae id libero quasi voluptates facere placeat est deleniti. Dolorum facilis, cupiditate optio soluta nulla, nemo sint voluptatem enim ullam quaerat architecto consequatur dicta molestias id harum eos laborum amet nostrum. Excepturi earum, rerum amet repudiandae in asperiores molestias aut necessitatibus totam blanditiis optio at enim quae molestiae velit quaerat numquam perferendis non beatae assumenda eius. Enim praesentium rem, ab fuga delectus corporis tenetur architecto? Enim animi rerum nihil non iusto! Corrupti quod mollitia exercitationem enim id vitae minima!</p>
-        <h2 id="clientFetching" className="text-2xl font-semibold mt-8">
-          Client-Side Fetching
-        </h2>
+        <h4 className="text-l font-semibold mt-6">
+          2.1. Centralized Version Control System (Hệ thống quản lý phiên bản tập trung)
+        </h4>
         <p className="mt-4">
-          For client-side data fetching, you can use libraries like{" "}
-          <code className="bg-gray-200 rounded px-1">axios</code> or{" "}
-          <code className="bg-gray-200 rounded px-1">fetch</code>.
+          CVCS là hệ thống quản lý phiên bản tập trung, trong đó có một kho chứa duy nhất trên máy chủ trung tâm
+         và tất cả các lập trình viên phải kết nối với máy chủ này để tải và gửi các thay đổi.
         </p>
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Vero, perspiciatis iste. Architecto iste sapiente excepturi quisquam mollitia repellendus assumenda nobis enim? Perferendis, deserunt. Ut distinctio modi laudantium, maiores ab optio, quae corporis atque et, autem obcaecati repudiandae expedita rem. Numquam eveniet quae placeat nostrum. Placeat sed, dignissimos repellendus aperiam eaque laudantium iste repellat obcaecati illo pariatur ipsam corrupti quam, aliquid quo? Odio earum, maiores quas porro facilis ducimus dolores sequi dolorum possimus expedita similique veritatis ullam eius voluptate temporibus tenetur amet inventore illo doloribus numquam dolore sunt sint? Recusandae omnis sequi fugiat nobis suscipit veritatis dolores perferendis. Perferendis commodi rem nisi unde, magnam quibusdam iusto sed! Vitae, porro. Itaque porro ad sit ducimus corporis praesentium, earum ratione tenetur laborum harum suscipit nostrum laboriosam omnis est sunt commodi quo ipsa, necessitatibus nihil voluptate nobis corrupti voluptas facere! Mollitia voluptatem omnis rerum adipisci? Veritatis nam nobis accusantium at culpa iure. Voluptas nisi totam magnam quaerat beatae a quibusdam. Vero ipsa quis amet dolorum nostrum. Modi velit quis fuga dolores architecto perferendis possimus veniam qui voluptatibus odio molestiae quia praesentium optio beatae, aspernatur illo iste unde. Facilis accusamus ex provident, amet alias repellat iure. Doloremque expedita cumque soluta eveniet minima sapiente fugit. Obcaecati nihil aliquid eius, harum doloremque reiciendis quod temporibus, mollitia, error asperiores sunt! Quibusdam est inventore, porro incidunt vel asperiores autem consectetur quod facilis consequatur! Eos magni esse suscipit hic nihil consequuntur rerum numquam nisi quas iure neque magnam velit eaque nemo dolore pariatur veritatis necessitatibus corrupti quam, soluta voluptatem tempore? Reprehenderit fugiat fugit maxime exercitationem accusantium expedita adipisci incidunt corrupti quibusdam fuga quos ab dolores suscipit, earum obcaecati ipsa similique, atque, molestias aperiam totam temporibus ex? Nulla optio quas dolores dolor odit, incidunt adipisci, quasi, magnam iusto aut earum deleniti nisi amet natus ex accusamus illo. Quos ipsam accusantium ullam.</p>
+        <p className="mt-2">
+        <strong>Ví Dụ:</strong> Subversion (SVN)
+        </p>
+        <p className="mt-2">
+        <strong>Cách thức hoạt động:</strong>
+        </p>
+       <p>
+       
+        <li className="mt-2">Một kho chứa duy nhất được lưu trữ trên một máy chủ trung tâm (server).</li>
+        <li className="mt-2">Lập trình viên tải về toàn bộ mã nguồn từ kho chứa này và làm việc trên đó.</li>
+        <li className="mt-2">Sau khi thực hiện thay đổi, lập trình viên sẽ commit (ghi lại) thay đổi vào kho chứa.</li>
+        <li className="mt-2">Các thay đổi sẽ được đồng bộ hóa trực tiếp với kho chứa trung tâm khi lập trình viên thực hiện commit hoặc update.</li>
+        
+         </p>
+         <p className="mt-2">
+        <strong>Ưu điểm:</strong>
+        </p>
+
+        <li className="mt-2">Dễ dàng quản lý và kiểm soát phiên bản vì tất cả dữ liệu và lịch sử thay đổi đều được lưu trữ tại một điểm duy nhất.</li>
+        <li className="mt-2">Phù hợp cho các tổ chức nhỏ, nơi mà số lượng người dùng ít và không cần nhiều tính năng phức tạp.</li>
+        
+        <p className="mt-2">
+        <strong> Nhược điểm:</strong>
+        </p>
+
+        <li className="mt-2">Phụ thuộc hoàn toàn vào máy chủ trung tâm. Nếu máy chủ gặp sự cố (chẳng hạn như mất kết nối hoặc hỏng hóc), toàn bộ đội ngũ lập trình viên sẽ không thể truy cập kho chứa.</li>
+        <li className="mt-2">Không hỗ trợ làm việc offline. Lập trình viên phải luôn kết nối với máy chủ để tải về và gửi thay đổi.</li>
       
-      
-      </div>
+        <h4 className="text-l font-semibold mt-6">
+          2.2. Distributed Version Control System (Hệ thống quản lý phiên bản phân tán)
+        </h4>
+
+        <p className="mt-4">
+        DVCS là hệ thống quản lý phiên bản phân tán, trong đó mỗi lập trình viên có một bản sao đầy đủ của kho chứa trên máy tính của mình. 
+        Điều này cho phép họ làm việc độc lập và đồng bộ hóa với kho chứa từ xa khi có kết nối.
+        </p>
+
+        <p className="mt-2">
+        <strong>Ví Dụ:</strong> Git
+        </p>
+
+        <p className="mt-2">
+        <strong>Cách thức hoạt động:</strong>
+        </p>
+
+       <p>
+        <li className="mt-2">Mỗi lập trình viên có một bản sao đầy đủ của kho chứa trên máy tính cá nhân của mình, bao gồm lịch sử thay đổi và mọi phiên bản.</li>
+        <li className="mt-2">Các thay đổi có thể được thực hiện cục bộ, không cần kết nối với kho chứa từ xa.</li>
+        <li className="mt-2">Khi kết nối mạng có sẵn, lập trình viên có thể đẩy thay đổi lên kho chứa từ xa hoặc kéo các thay đổi từ kho chứa từ xa về máy của mình.</li>
+         </p>
+
+         <p className="mt-2">
+        <strong>Ưu điểm:</strong>
+        </p>
+
+        <li className="mt-2">Hỗ trợ làm việc offline, lập trình viên có thể thực hiện thay đổi trên kho chứa cục bộ mà không cần kết nối với máy chủ.</li>
+        <li className="mt-2">Khả năng quản lý nhánh (branch) mạnh mẽ giúp phân tách công việc, thử nghiệm tính năng mới mà không ảnh hưởng đến mã nguồn chính.</li>
+        <li className="mt-2">Xử lý tốt xung đột và có tính năng hợp nhất (merge) các thay đổi từ nhiều nhánh hoặc kho chứa khác nhau.</li>
+        <li className="mt-2">Dễ dàng chia sẻ mã nguồn qua các dịch vụ như GitHub, GitLab, hoặc Bitbucket.</li>
+        
+        <p className="mt-2">
+        <strong> Nhược điểm:</strong>
+        </p>
+
+        <li className="mt-2">Cần có kiến thức về cách quản lý kho chứa phân tán, đặc biệt là trong việc hợp nhất các thay đổi (merge conflicts).</li>
+        <li className="mt-2">Quá trình quản lý các kho chứa từ xa (ví dụ: GitHub, GitLab) yêu cầu cấu hình và kiến thức về các công cụ CI/CD nếu sử dụng.</li>
+        
+        </div>
 
 
 
