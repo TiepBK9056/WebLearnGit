@@ -47,6 +47,7 @@ Welcome to **Git Learning Simulator**, a web-based tool to help beginners unders
 ### 1. Run the Development Server
 First, install dependencies and start the development server:
 
+
 ```bash
 npm install
 npm run dev
