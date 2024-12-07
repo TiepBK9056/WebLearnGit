@@ -28,10 +28,12 @@ export const handleLsCommand = (command: string, term: Terminal) => {
           term.write("Error: Unable to read directory /myfolder.\r\n");
         }
       }
-      term.write("$ ");
+      const greenBoldDollar = '\x1b[1m\x1b[32m$\x1b[0m '; // $ in bold green
+      term.write(greenBoldDollar);
     });
   } else {
     term.write("Error: Invalid 'ls' command.\r\n");
-    term.write("$ ");
+    const greenBoldDollar = '\x1b[1m\x1b[32m$\x1b[0m '; // $ in bold green
+    term.write(greenBoldDollar);
   }
 };

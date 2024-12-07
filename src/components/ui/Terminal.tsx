@@ -11,6 +11,13 @@ const TerminalComponent = () => {
   const [terminal, setTerminal] = useState<Terminal | null>(null);
   const [width, setWidth] = useState(0);
 
+  // Hàm tính số dòng dựa trên chiều cao màn hình
+  const calculateRows = () => {
+    const rowHeight = 26; // Chiều cao 1 dòng = 26px
+    const screenHeight = window.innerHeight; // Chiều cao màn hình
+    return Math.floor((screenHeight * 0.84) / rowHeight); // Lấy 70% chiều cao màn hình và làm tròn xuống
+  };
+
   useLayoutEffect(() => {
     // Cấu hình BrowserFS khi component được mount
     BrowserFS.install(window);
@@ -33,7 +40,7 @@ const TerminalComponent = () => {
         fontFamily: 'Monaco, Courier, monospace',
         fontSize: 16,
         cursorBlink: true,
-        rows: 27,
+        rows: calculateRows(), // Sử dụng số dòng đã tính toán
         cols: 50,
         lineHeight: 1.2,
       });
@@ -80,6 +87,20 @@ const TerminalComponent = () => {
           userInput += data;
         }
       });
+
+      setTerminal(term);
+
+      // Lắng nghe sự kiện resize
+      const handleResize = () => {
+        if (term) {
+          const rows = calculateRows();
+          term.resize(term.cols, rows); // Cập nhật số dòng
+        }
+      };
+
+      window.addEventListener('resize', handleResize);
+
+      return () => window.removeEventListener('resize', handleResize); // Gỡ sự kiện khi component unmount
     });
 
   }, []);

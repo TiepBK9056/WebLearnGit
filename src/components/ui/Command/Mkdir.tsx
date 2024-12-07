@@ -22,7 +22,8 @@ export const handleMkdirCommand = (command: string, term: Terminal) => {
             } else {
               term.write(`Unknown error: ${err}\r\n`);
             }
-            term.write("$ ");
+            const greenBoldDollar = '\x1b[1m\x1b[32m$\x1b[0m '; // $ in bold green
+            term.write(greenBoldDollar);
             return;
           }
 
@@ -43,7 +44,8 @@ export const handleMkdirCommand = (command: string, term: Terminal) => {
                   // Tiến hành tạo thư mục con
                   createFolder(folderName, fs, term);
                 }
-                term.write("$ ");
+                const greenBoldDollar = '\x1b[1m\x1b[32m$\x1b[0m '; // $ in bold green
+                term.write(greenBoldDollar);
               });
             } else {
               // Nếu thư mục myfolder đã tồn tại, tiến hành tạo thư mục con
@@ -51,20 +53,24 @@ export const handleMkdirCommand = (command: string, term: Terminal) => {
             }
           } else {
             term.write("Error: Unable to read the directory or 'files' is undefined.\r\n");
-            term.write("$ ");
+            const greenBoldDollar = '\x1b[1m\x1b[32m$\x1b[0m '; // $ in bold green
+            term.write(greenBoldDollar);
           }
         });
       } else {
         term.write("Error: Missing folder name.\r\n");
-        term.write("$ ");
+        const greenBoldDollar = '\x1b[1m\x1b[32m$\x1b[0m '; // $ in bold green
+        term.write(greenBoldDollar);
       }
     } else {
       term.write("Error: Invalid 'mkdir' command syntax. Usage: mkdir <folderName>\r\n");
-      term.write("$ ");
+      const greenBoldDollar = '\x1b[1m\x1b[32m$\x1b[0m '; // $ in bold green
+      term.write(greenBoldDollar);
     }
   } else {
     term.write("Command not recognized.\r\n");
-    term.write("$ ");
+    const greenBoldDollar = '\x1b[1m\x1b[32m$\x1b[0m '; // $ in bold green
+    term.write(greenBoldDollar);
   }
 };
 

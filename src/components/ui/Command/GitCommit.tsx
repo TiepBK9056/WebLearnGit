@@ -14,7 +14,8 @@ export const handleGitCommitCommand = (userInput: string, term: Terminal) => {
   if (args.length < 4 || args[2] !== '-m') {
     // Kiểm tra nếu thiếu -m hoặc thông điệp commit
     term.write("Error: Invalid commit syntax. Usage: git commit -m <message>\r\n");
-    term.write("$ ");
+    const greenBoldDollar = '\x1b[1m\x1b[32m$\x1b[0m '; // $ in bold green
+    term.write(greenBoldDollar);
   } else {
     // Lệnh git commit -m "message"
     const commitMessage = args.slice(2).join(' ');
@@ -31,11 +32,13 @@ export const handleGitCommitCommand = (userInput: string, term: Terminal) => {
     })
     .then(() => {
       term.write(`Commit successful: ${commitMessage}\r\n`);
-      term.write("$ ");
+      const greenBoldDollar = '\x1b[1m\x1b[32m$\x1b[0m '; // $ in bold green
+      term.write(greenBoldDollar);
     })
     .catch((err) => {
       term.write(`Error: ${err.message}\r\n`);
-      term.write("$ ");
+      const greenBoldDollar = '\x1b[1m\x1b[32m$\x1b[0m '; // $ in bold green
+      term.write(greenBoldDollar);
     });
   }
 };

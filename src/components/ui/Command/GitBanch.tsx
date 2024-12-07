@@ -47,7 +47,8 @@ export const handleGitBranchCommand = async (command: string, term: Terminal) =>
       term.writeln('Usage: git branch [branch-name]');
     }
 
-    term.write("$ ");
+    const greenBoldDollar = '\x1b[1m\x1b[32m$\x1b[0m '; // $ in bold green
+    term.write(greenBoldDollar);
   } catch (error) {
     console.error("Error processing git branch command: ", error);
     term.writeln('Error: Unable to process git branch command.');

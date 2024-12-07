@@ -13,7 +13,8 @@ export const handleGitAddCommand = (userInput: string, term: Terminal) => {
   if (args.length === 1) {
     // Khi chỉ có git add mà không có file name
     term.write("Error: Missing file name. Usage: git add <fileName>\r\n");
-    term.write("$ ");
+    const greenBoldDollar = '\x1b[1m\x1b[32m$\x1b[0m '; // $ in bold green
+    term.write(greenBoldDollar);
   } else if (args[2] === '.') {
     // Lệnh git add .
     term.write('Adding all modified and untracked files...\r\n');
@@ -40,20 +41,24 @@ export const handleGitAddCommand = (userInput: string, term: Terminal) => {
         Promise.all(addPromises)
           .then(() => {
             term.write('All modified and untracked files added to staging area.\r\n');
-            term.write("$ ");
+            const greenBoldDollar = '\x1b[1m\x1b[32m$\x1b[0m '; // $ in bold green
+            term.write(greenBoldDollar);
           })
           .catch(err => {
             term.write(`Error adding files: ${err.message}\r\n`);
-            term.write("$ ");
+            const greenBoldDollar = '\x1b[1m\x1b[32m$\x1b[0m '; // $ in bold green
+    term.write(greenBoldDollar);
           });
       } else {
         term.write("No files to add. All files are up-to-date.\r\n");
-        term.write("$ ");
+        const greenBoldDollar = '\x1b[1m\x1b[32m$\x1b[0m '; // $ in bold green
+        term.write(greenBoldDollar);
       }
     })
     .catch(err => {
       term.write(`Error checking status: ${err.message}\r\n`);
-      term.write("$ ");
+      const greenBoldDollar = '\x1b[1m\x1b[32m$\x1b[0m '; // $ in bold green
+      term.write(greenBoldDollar);
     });
   } else {
     // Lệnh git add <file>
@@ -63,11 +68,13 @@ export const handleGitAddCommand = (userInput: string, term: Terminal) => {
     git.add({ fs, dir, filepath })
       .then(() => {
         term.write(`${filepath} added to staging area.\r\n`);
-        term.write("$ ");
+        const greenBoldDollar = '\x1b[1m\x1b[32m$\x1b[0m '; // $ in bold green
+    term.write(greenBoldDollar);
       })
       .catch(err => {
         term.write(`Error adding file ${filepath}: ${err.message}\r\n`);
-        term.write("$ ");
+        const greenBoldDollar = '\x1b[1m\x1b[32m$\x1b[0m '; // $ in bold green
+        term.write(greenBoldDollar);
       });
   }
 };

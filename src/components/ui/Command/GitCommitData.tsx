@@ -1,6 +1,5 @@
 import * as git from 'isomorphic-git';
 import BrowserFS from 'browserfs';
-import { Terminal } from 'xterm';
 
 const fs = BrowserFS.BFSRequire('fs'); // FS client sử dụng BrowserFS
 const dir = '/myfolder'; // Đường dẫn thư mục gốc chứa .git
@@ -38,7 +37,6 @@ export const handleGitCommitDataCommand = async (): Promise<CommitNode[]> => {
   
       return commitData; // Trả về danh sách commit đã được gán nhãn
     } catch (error) {
-      console.error("Error fetching git commit data: ", error);
       return [];
     }
   };

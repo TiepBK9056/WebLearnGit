@@ -63,10 +63,12 @@ export const handleGitLogCommand = (userInput: string, term: Terminal) => {
         });
       }
     }
-    term.write("$ ");
+    const greenBoldDollar = '\x1b[1m\x1b[32m$\x1b[0m '; // $ in bold green
+    term.write(greenBoldDollar);
   })
   .catch(err => {
     term.write(`Error fetching git log: ${err.message}\r\n`);
-    term.write("$ ");
+    const greenBoldDollar = '\x1b[1m\x1b[32m$\x1b[0m '; // $ in bold green
+    term.write(greenBoldDollar);
   });
 };

@@ -6,6 +6,5 @@ export const handleClearCommand = (term: Terminal) => {
   
   // ANSI escape codes: \x1b[1m -> bold, \x1b[32m -> green, \x1b[0m -> reset
   const greenBoldDollar = '\x1b[1m\x1b[32m$\x1b[0m '; // $ in bold green
-  
   term.write(greenBoldDollar);
 };
