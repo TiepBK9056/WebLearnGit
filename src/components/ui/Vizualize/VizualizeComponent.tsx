@@ -86,7 +86,9 @@ const VizualizeComponent = () => {
       nodes.append('circle')
         .attr('class', 'node')
         .attr('r', nodeRadius)
-        .style('fill', '#ff5733');
+        .style('fill', '#ff5733')
+        .style('stroke', '#fff')  // Thêm đường viền màu trắng
+        .style('stroke-width', '2px');  // Đặt độ rộng của đường viền là 1px
 
       nodes.append('text') // Thêm text vào giữa node
         .attr('class', 'node-text')

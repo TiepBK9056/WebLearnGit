@@ -81,6 +81,5 @@ const createFolder = (folderName: string, fs: any, term: Terminal) => {
     } else {
       term.write(`Directory '${folderName}' created successfully in /myfolder!\r\n`);
     }
-    term.write("$ ");
   });
 };
