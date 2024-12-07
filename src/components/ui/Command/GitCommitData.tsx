@@ -12,31 +12,43 @@ interface CommitNode {
 }
 
 export const handleGitCommitDataCommand = async (): Promise<CommitNode[]> => {
-    try {
-      const commits = await git.log({ fs, dir });
-  
-      // Tạo ánh xạ oid -> id mới (c1, c2, ...)
-      const oidToIdMap: { [key: string]: string } = {};
-  
-      // Gán nhãn và tạo ánh xạ
-      const commitData: CommitNode[] = commits.map((commit, index) => {
-        const newId = `c${index + 1}`; // Gán id mới (c1, c2, ...)
-        oidToIdMap[commit.oid] = newId; // Lưu ánh xạ
-        return {
-          id: newId,
-          message: commit.commit.message,
-          parentIds: commit.commit.parent || [], // Giữ nguyên oid của parent ban đầu
-          children: [],
-        };
+  try {
+    // Lấy danh sách các nhánh
+    const branches = await git.listBranches({ fs, dir });
+
+    const allCommits: CommitNode[] = [];
+    const oidToIdMap: { [key: string]: string } = {};
+
+    let commitIndex = 1; // Dùng để gán id theo thứ tự (c1, c2,...)
+
+    // Lấy commit từ từng nhánh
+    for (const branch of branches) {
+      const commits = await git.log({ fs, dir, ref: branch });
+
+      commits.forEach((commit) => {
+        // Kiểm tra nếu commit đã được xử lý
+        if (!oidToIdMap[commit.oid]) {
+          const newId = `c${commitIndex++}`; // Gán id mới
+          oidToIdMap[commit.oid] = newId;
+
+          allCommits.push({
+            id: newId,
+            message: commit.commit.message,
+            parentIds: commit.commit.parent || [], // Giữ nguyên parent ban đầu (oid)
+            children: [],
+          });
+        }
       });
-  
-      // Cập nhật parentIds sang id mới
-      commitData.forEach((commit) => {
-        commit.parentIds = commit.parentIds.map((oid) => oidToIdMap[oid] || oid);
-      });
-  
-      return commitData; // Trả về danh sách commit đã được gán nhãn
-    } catch (error) {
-      return [];
     }
-  };
+
+    // Cập nhật parentIds sang id mới
+    allCommits.forEach((commit) => {
+      commit.parentIds = commit.parentIds.map((oid) => oidToIdMap[oid] || oid);
+    });
+
+    return allCommits; // Trả về toàn bộ commit đã gán nhãn
+  } catch (error) {
+    console.error("Error fetching git commit data: ", error);
+    return [];
+  }
+};

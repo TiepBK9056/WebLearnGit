@@ -2,8 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import * as d3 from 'd3';
-import * as git from 'isomorphic-git';
-import BrowserFS from 'browserfs';
+import { handleGitCommitDataCommand } from '@/components/ui/Command/GitCommitData'; // Import hàm từ file khác
 
 // Khai báo kiểu cho mỗi commit
 interface CommitNode {
@@ -18,57 +17,20 @@ const VizualizeComponent = () => {
   const [commitsData, setCommitsData] = useState<CommitNode[]>([]);
 
   useEffect(() => {
-    // Cấu hình BrowserFS
-    BrowserFS.configure({ fs: "LocalStorage", options: {} }, (err) => {
-      if (err) {
-        console.error("Failed to initialize BrowserFS", err);
-        return;
+    // Lấy dữ liệu commit từ hàm bên kia
+    const fetchAllBranchCommits = async () => {
+      try {
+        setIsLoading(true);
+        const allCommits = await handleGitCommitDataCommand(); // Gọi hàm từ file khác
+        setCommitsData(allCommits); // Lưu dữ liệu commit vào state
+      } catch (error) {
+        console.error("Error fetching commits: ", error);
+      } finally {
+        setIsLoading(false);
       }
+    };
 
-      // Lấy dữ liệu commit từ tất cả các nhánh
-      const fetchAllBranchCommits = async () => {
-        const fs = BrowserFS.BFSRequire('fs'); // Khởi tạo FS client
-        const dir = '/myfolder'; // Đường dẫn gốc chứa repository
-
-        try {
-          setIsLoading(true);
-
-          // Lấy danh sách các nhánh
-          const branches = await git.listBranches({ fs, dir });
-
-          const allCommits: CommitNode[] = [];
-
-          // Duyệt qua từng nhánh và lấy commit
-          for (const branch of branches) {
-            const commits = await git.log({ fs, dir, ref: branch });
-            commits.forEach(commit => {
-              allCommits.push({
-                id: commit.oid,
-                message: commit.commit.message,
-                parentIds: commit.commit.parent || [],
-                children: [],
-              });
-            });
-          }
-
-          // Loại bỏ commit trùng lặp (sử dụng Map để đảm bảo duy nhất)
-          const uniqueCommitsMap = new Map<string, CommitNode>();
-          allCommits.forEach(commit => {
-            if (!uniqueCommitsMap.has(commit.id)) {
-              uniqueCommitsMap.set(commit.id, commit);
-            }
-          });
-
-          setCommitsData(Array.from(uniqueCommitsMap.values()));
-        } catch (error) {
-          console.error("Error fetching commits: ", error);
-        } finally {
-          setIsLoading(false);
-        }
-      };
-
-      fetchAllBranchCommits();
-    });
+    fetchAllBranchCommits();
   }, []);
 
   useEffect(() => {
@@ -131,11 +93,11 @@ const VizualizeComponent = () => {
       .style('stroke', '#fff')
       .style('stroke-width', '2px');
 
-    nodes.append('text')
+    nodes.append('text') // Thêm text vào giữa node
       .attr('class', 'node-text')
-      .attr('text-anchor', 'middle')
-      .attr('alignment-baseline', 'middle')
-      .text((d: any) => `${d.data.id}: ${d.data.message}`)
+      .attr('text-anchor', 'middle') // Căn giữa theo chiều ngang
+      .attr('alignment-baseline', 'middle') // Căn giữa theo chiều dọc
+      .text((d: any) => `${d.data.id}: ${d.data.message}`) // Hiển thị ID + Message trong node
       .style('fill', 'white')
       .style('font-size', '12px');
   }, [commitsData]);
