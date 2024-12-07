@@ -60,7 +60,9 @@ const TerminalComponent = () => {
       setWidth(newWidth);
 
       terminalRef.current && term.open(terminalRef.current);
-      term.write("Welcome to the 4Frog group! Type something.\r\n$ ");
+      term.writeln("Welcome to the 4Frog group! Type something.");
+      const greenBoldDollar = '\x1b[1m\x1b[32m$\x1b[0m '; // $ in bold green
+      term.write(greenBoldDollar);
 
       let userInput = '';
       let cursorPosition = 2;
