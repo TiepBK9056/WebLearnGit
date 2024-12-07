@@ -66,7 +66,7 @@ export default function DataVCSGit() {
     
       
 
-      <div className="flex-1 p-6 vcs VCSAndGit">
+      <div className="flex-1 p-6 vcs VCSAndGit vcs">
 
         {/* Nội dung chính bên trái đây là phần được chỉnh sửa */}
         <h1 className="text-3xl font-bold">Giới thiệu về hệ thống quản lý phiên bản Git (Version Control System - VCS)</h1>

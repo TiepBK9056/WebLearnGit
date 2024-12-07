@@ -12,7 +12,8 @@ export const handleGitCheckoutCommand = async (command: string, term: Terminal) 
     
     if (args.length < 4) {
       term.writeln('Usage: git checkout <branch-name>');
-      term.write("$ ");
+      const greenBoldDollar = '\x1b[1m\x1b[32m$\x1b[0m '; // $ in bold green
+      term.write(greenBoldDollar);
       return;
     }
 
@@ -57,5 +58,6 @@ export const handleGitCheckoutCommand = async (command: string, term: Terminal) 
     term.writeln('Error: Unable to process git checkout command.');
   }
   
-  term.write("$ ");
+  const greenBoldDollar = '\x1b[1m\x1b[32m$\x1b[0m '; // $ in bold green
+  term.write(greenBoldDollar);
 };

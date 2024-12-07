@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import React, { useEffect, useState } from 'react';
 import * as d3 from 'd3';
@@ -9,7 +9,7 @@ interface CommitNode {
   id: string;
   message: string;
   parentIds: string[];
-  children: CommitNode[]; // `children` là một mảng các CommitNode
+  children: CommitNode[];
 }
 
 const VizualizeComponent = () => {
@@ -29,67 +29,88 @@ const VizualizeComponent = () => {
   }, []);
 
   useEffect(() => {
-    // Vẽ cây Git bằng D3.js
-    if (commitsData.length > 0) {
-      const root = d3.hierarchy(buildTree(commitsData), (d: CommitNode) => d.children);
-      const width = 900;
-      const height = 800;
-      const nodeRadius = 30; // Bán kính node
-      const svg = d3.select('#gitTree')
-                    .attr('width', width)
-                    .attr('height', height);
-  
-      const treeLayout = d3.tree().size([width - 2 * nodeRadius, height - 2 * nodeRadius]);
-      treeLayout(root);
-
-      // Vẽ các liên kết (edges)
-      svg.selectAll('.link')
-        .data(root.links())
-        .enter()
-        .append('line')
-        .attr('class', 'link')
-        .attr('x1', (d: any) => d.source.x + nodeRadius)
-        .attr('y1', (d: any) => d.source.y + nodeRadius)
-        .attr('x2', (d: any) => d.target.x + nodeRadius)
-        .attr('y2', (d: any) => d.target.y + nodeRadius)
-        .style('stroke', '#ccc');
-  
-      // Vẽ các node (commits)
-      const nodes = svg.selectAll('.node')
-        .data(root.descendants())
-        .enter()
-        .append('g') // Sử dụng nhóm `<g>` để nhóm node và text
-        .attr('class', 'node-group')
-        .attr('transform', (d: any) => `translate(${d.x + nodeRadius}, ${d.y + nodeRadius})`); // Dịch vị trí cả nhóm
-
-      nodes.append('circle')
-        .attr('class', 'node')
-        .attr('r', nodeRadius)
-        .style('fill', '#ff5733');
-
-      nodes.append('text') // Thêm text vào giữa node
-        .attr('class', 'node-text')
-        .attr('text-anchor', 'middle') // Căn giữa theo chiều ngang
-        .attr('alignment-baseline', 'middle') // Căn giữa theo chiều dọc
-        .text((d: any) => d.data.id) // Hiển thị ID trong node
-        .style('fill', 'white')
-        .style('font-size', '12px');
+    if (commitsData.length === 0) {
+      console.log("No commits found.");
+      return; // Không thực hiện vẽ nếu không có commit
     }
+
+    // Sắp xếp các commit từ lớn nhất đến nhỏ nhất
+    const sortedCommitsData = [...commitsData].sort((a, b) => b.id.localeCompare(a.id));
+
+    // Vẽ cây Git bằng D3.js
+    const root = d3.hierarchy(buildTree(sortedCommitsData), (d: CommitNode) => d.children);
+    const width = 900;
+    const height = 800;
+    const nodeRadius = 30; // Bán kính node
+    const svg = d3.select('#gitTree')
+                  .attr('width', width)
+                  .attr('height', height);
+
+    const treeLayout = d3.tree().size([width - 2 * nodeRadius, height - 2 * nodeRadius]);
+    treeLayout(root);
+
+    // Định nghĩa marker cho mũi tên
+    svg.append('defs').append('marker')
+      .attr('id', 'arrow')
+      .attr('viewBox', '0 -3 6 6')
+      .attr('refX', 6)
+      .attr('refY', 0)
+      .attr('markerWidth', 6)
+      .attr('markerHeight', 6)
+      .attr('orient', 'auto')
+      .append('path')
+      .attr('d', 'M0,-3L6,0L0,3')
+      .attr('fill', '#fff');
+
+    // Vẽ các liên kết (edges)
+    svg.selectAll('.link')
+      .data(root.links())
+      .enter()
+      .append('line')
+      .attr('class', 'link')
+      .attr('x1', (d: any) => d.source.x + nodeRadius)
+      .attr('y1', (d: any) => d.source.y + nodeRadius)
+      .attr('x2', (d: any) => d.target.x + nodeRadius)
+      .attr('y2', (d: any) => d.target.y + nodeRadius)
+      .style('stroke', '#ccc')
+      .style('stroke-width', 2)
+      .attr('marker-end', 'url(#arrow)');
+
+    // Vẽ các node (commits)
+    const nodes = svg.selectAll('.node')
+      .data(root.descendants())
+      .enter()
+      .append('g')
+      .attr('class', 'node-group')
+      .attr('transform', (d: any) => `translate(${d.x + nodeRadius}, ${d.y + nodeRadius})`);
+
+    nodes.append('circle')
+      .attr('class', 'node')
+      .attr('r', nodeRadius)
+      .style('fill', '#ff5733')
+      .style('stroke', '#fff')
+      .style('stroke-width', '2px');
+
+    nodes.append('text')
+      .attr('class', 'node-text')
+      .attr('text-anchor', 'middle')
+      .attr('alignment-baseline', 'middle')
+      .text((d: any) => `${d.data.id}: ${d.data.message}`)
+      .style('fill', 'white')
+      .style('font-size', '12px');
   }, [commitsData]);
 
   // Hàm xây dựng cây từ dữ liệu commit
   const buildTree = (commitsData: CommitNode[]): CommitNode => {
-    const nodesMap: { [key: string]: CommitNode } = {}; // Map để lưu trữ commit theo ID
+    const nodesMap: { [key: string]: CommitNode } = {};
     const rootNode: CommitNode = { id: 'root', message: '', parentIds: [], children: [] };
 
-    // Tạo các commit trong nodesMap
     commitsData.forEach(commit => {
       if (!nodesMap[commit.id]) {
         nodesMap[commit.id] = { ...commit, children: [] };
       }
     });
 
-    // Duyệt qua các commit và xây dựng cây
     commitsData.forEach(commit => {
       if (commit.parentIds.length > 0) {
         commit.parentIds.forEach((parentId: string) => {
@@ -109,8 +130,9 @@ const VizualizeComponent = () => {
 
   return (
     <div className="rounded-lg p-4">
-      <svg id="gitTree"></svg>
+      {commitsData.length === 0 && !isLoading && <p>No commits available.</p>}
       {isLoading && <p>Loading Git tree...</p>}
+      <svg id="gitTree"></svg>
     </div>
   );
 };
