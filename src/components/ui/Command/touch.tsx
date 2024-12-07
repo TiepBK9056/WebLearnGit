@@ -6,8 +6,9 @@ export const handleTouchCommand = (userInput: string, term: Terminal) => {
   const fileName = userInput.split(' ')[1];
 
   if (!fileName) {
-    term.write('Error: Please specify a file name.\r\n');
-    term.write('$ ');
+    term.writeln('Error: Please specify a file name.');
+    const greenBoldDollar = '\x1b[1m\x1b[32m$\x1b[0m '; // $ in bold green
+    term.write(greenBoldDollar);
     return;
   }
 
@@ -16,17 +17,19 @@ export const handleTouchCommand = (userInput: string, term: Terminal) => {
   // Kiểm tra xem file đã tồn tại chưa bằng fs.stat
   fs.stat(filePath, (err: any, stats: any) => {
     if (!err && stats.isFile()) {
-      term.write(`Error: File '${filePath}' already exists.\r\n`);
-      term.write('$ ');
+      term.write(`Error: File '${filePath}' already exists.`);
+      const greenBoldDollar = '\x1b[1m\x1b[32m$\x1b[0m '; // $ in bold green
+      term.write(greenBoldDollar);
     } else {
       // Nếu không có lỗi, tức là file không tồn tại, thì tạo file mới
       fs.writeFile(filePath, '', (err: any) => {
         if (err) {
-          term.write(`Error: ${err.message}\r\n`);
+          term.writeln(`Error: ${err.message}`);
         } else {
-          term.write(`File '${filePath}' created successfully.\r\n`);
+          term.writeln(`File '${filePath}' created successfully.`);
         }
-        term.write('$ ');
+        const greenBoldDollar = '\x1b[1m\x1b[32m$\x1b[0m '; // $ in bold green
+        term.write(greenBoldDollar);
       });
     }
   });

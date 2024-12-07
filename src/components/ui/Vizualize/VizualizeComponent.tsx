@@ -1,8 +1,9 @@
-"use client";
+'use client';
 
 import React, { useEffect, useState } from 'react';
 import * as d3 from 'd3';
-import { handleGitCommitDataCommand } from '@/components/ui/Command/GitCommitData';
+import * as git from 'isomorphic-git';
+import BrowserFS from 'browserfs';
 
 // Khai báo kiểu cho mỗi commit
 interface CommitNode {
@@ -17,15 +18,57 @@ const VizualizeComponent = () => {
   const [commitsData, setCommitsData] = useState<CommitNode[]>([]);
 
   useEffect(() => {
-    // Lấy dữ liệu commit từ Git
-    const fetchCommitData = async () => {
-      setIsLoading(true);
-      const data = await handleGitCommitDataCommand(); // Gọi hàm để lấy dữ liệu
-      setCommitsData(data);
-      setIsLoading(false);
-    };
+    // Cấu hình BrowserFS
+    BrowserFS.configure({ fs: "LocalStorage", options: {} }, (err) => {
+      if (err) {
+        console.error("Failed to initialize BrowserFS", err);
+        return;
+      }
 
-    fetchCommitData(); // Gọi hàm fetch khi component mount
+      // Lấy dữ liệu commit từ tất cả các nhánh
+      const fetchAllBranchCommits = async () => {
+        const fs = BrowserFS.BFSRequire('fs'); // Khởi tạo FS client
+        const dir = '/myfolder'; // Đường dẫn gốc chứa repository
+
+        try {
+          setIsLoading(true);
+
+          // Lấy danh sách các nhánh
+          const branches = await git.listBranches({ fs, dir });
+
+          const allCommits: CommitNode[] = [];
+
+          // Duyệt qua từng nhánh và lấy commit
+          for (const branch of branches) {
+            const commits = await git.log({ fs, dir, ref: branch });
+            commits.forEach(commit => {
+              allCommits.push({
+                id: commit.oid,
+                message: commit.commit.message,
+                parentIds: commit.commit.parent || [],
+                children: [],
+              });
+            });
+          }
+
+          // Loại bỏ commit trùng lặp (sử dụng Map để đảm bảo duy nhất)
+          const uniqueCommitsMap = new Map<string, CommitNode>();
+          allCommits.forEach(commit => {
+            if (!uniqueCommitsMap.has(commit.id)) {
+              uniqueCommitsMap.set(commit.id, commit);
+            }
+          });
+
+          setCommitsData(Array.from(uniqueCommitsMap.values()));
+        } catch (error) {
+          console.error("Error fetching commits: ", error);
+        } finally {
+          setIsLoading(false);
+        }
+      };
+
+      fetchAllBranchCommits();
+    });
   }, []);
 
   useEffect(() => {
@@ -34,11 +77,8 @@ const VizualizeComponent = () => {
       return; // Không thực hiện vẽ nếu không có commit
     }
 
-    // Sắp xếp các commit từ lớn nhất đến nhỏ nhất
-    const sortedCommitsData = [...commitsData].sort((a, b) => b.id.localeCompare(a.id));
-
     // Vẽ cây Git bằng D3.js
-    const root = d3.hierarchy(buildTree(sortedCommitsData), (d: CommitNode) => d.children);
+    const root = d3.hierarchy(buildTree(commitsData), (d: CommitNode) => d.children);
     const width = 900;
     const height = 800;
     const nodeRadius = 30; // Bán kính node
