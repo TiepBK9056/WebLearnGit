@@ -122,11 +122,11 @@ const GitCloneGuide: React.FC = () => {
         // nội dung css ở đây    
     }
     */}
-      <h1 className="text-4xl font-bold text-blue-800 border-b-4 border-blue-500 pb-3">
-            Git Clone: Công Cụ Sao Chép "Thần Thánh" Của Lập Trình Viên
+          <h1 className="text-4xl font-bold text-blue-800 border-b-4 border-blue-500 pb-3">
+            Git Clone: Sao Chép Kho Lưu Trữ
           </h1>
           <p className="mt-4 text-gray-600 text-lg">
-          Lệnh git clone là một trong những lệnh mạnh mẽ nhất trong Git, cho phép bạn dễ dàng sao chép toàn bộ kho lưu trữ (repo) từ một nguồn về máy tính cá nhân. Hãy tưởng tượng bạn đang khám phá một dự án thú vị trên GitHub và muốn "rinh" nó về để nghiên cứu hoặc tiếp tục phát triển. Chỉ với một dòng lệnh, mọi thứ từ mã nguồn, lịch sử commit, cho đến cấu trúc repo đều nằm gọn trong máy của bạn!
+            Lệnh `git clone` là một trong những lệnh mạnh mẽ nhất trong Git, cho phép bạn dễ dàng sao chép toàn bộ kho lưu trữ (repository) từ nhiều nguồn khác nhau. Hãy tưởng tượng bạn đang khám phá một dự án thú vị trên GitHub và muốn nghiên cứu hoặc phát triển tiếp - chỉ với một dòng lệnh duy nhất, toàn bộ mã nguồn, lịch sử commit và cấu trúc repository sẽ nằm gọn trong máy của bạn!
           </p>
         </header>
 
@@ -137,26 +137,27 @@ const GitCloneGuide: React.FC = () => {
               Git Clone Là Gì?
             </h2>
             <p className="text-gray-700">
-              Lệnh <code className="bg-blue-100 px-2 py-1 rounded text-blue-800">git clone</code> giúp sao chép một Git Repository (Repo) từ:
+              `Git clone` là một công cụ linh hoạt cho phép bạn sao chép toàn bộ repository từ:
             </p>
             <ul className="list-disc list-inside mt-2 space-y-2 text-gray-600">
-              <li>Máy remote về local</li>
-              <li>Thư mục này sang thư mục khác</li>
-              <li>URL trên GitHub, GitLab</li>
-              <p>Ngoài ra, Git clone tự động thiết lập kết nối với repo gốc (remote repo), giúp bạn dễ dàng thực hiện các thao tác như pull, push. Kết nối này thường được đặt tên mặc định là <code className="bg-blue-100 px-2 py-1 rounded text-blue-800">origin</code>.
-              </p>
+              <li>Máy remote về máy local</li>
+              <li>Một thư mục này sang thư mục khác</li>
+              <li>URL trên các nền tảng như GitHub, GitLab</li>
             </ul>
+            <p className="mt-2 text-gray-700">
+              Điều đặc biệt là Git clone tự động thiết lập kết nối với repository gốc, giúp bạn dễ dàng thực hiện các thao tác như pull và push. Kết nối này thường được đặt tên mặc định là `origin`.
+            </p>
           </div>
 
           <div id="uu-diem-git-clone" className="bg-green-50 p-6 rounded-lg">
             <h2 className="text-2xl font-semibold text-green-700 flex items-center mb-4">
               <span className="mr-3"><CopyIcon /></span>
-              Tại Sao Git Clone Là "Vũ Khí Bí Mật"?
+              Tại Sao Git Clone Là "Vũ Khí Bí Mật" Của Lập Trình Viên?
             </h2>
             <ul className="list-disc list-inside space-y-2 text-gray-700">
-              <li>Tự động tạo kết nối đến remote repository</li>
-              <li>Mặc định kết nối được đặt tên là <code className="bg-green-100 px-2 py-1 rounded text-green-800">origin</code></li>
-              <li>Dễ dàng sao chép toàn bộ lịch sử dự án</li>
+              <li>Tốc độ nhanh chóng: Chỉ một lệnh duy nhất, bạn đã có toàn bộ repository!</li>
+              <li>Linh hoạt tối đa: Clone từ local, remote, hay bất kỳ dịch vụ lưu trữ trực tuyến nào</li>
+              <li>Lịch sử đầy đủ: Sao chép không chỉ mã nguồn mà còn toàn bộ lịch sử commit và nhánh</li>
             </ul>
           </div>
         </section>
@@ -169,29 +170,29 @@ const GitCloneGuide: React.FC = () => {
           
           <div className="space-y-4">
             <div>
-              <h3 className="font-bold text-gray-700 mb-2">Clone từ đường dẫn local</h3>
+              <h3 className="font-bold text-gray-700 mb-2">Clone từ Thư Mục Local</h3>
               <CodeBlock>
                 {`# Clone sang thư mục hiện tại
-git clone /path/to/existing/repo
+git clone path-git
 
-# Clone sang thư mục xác định
-git clone /path/to/existing/repo destination-folder`}
+# Clone sang thư mục cụ thể
+git clone path-git path-des`}
               </CodeBlock>
             </div>
 
             <div>
-              <h3 className="font-bold text-gray-700 mb-2">Clone qua SSH</h3>
+              <h3 className="font-bold text-gray-700 mb-2">Clone Qua SSH</h3>
               <CodeBlock>
-                {`# Clone từ server có kết nối SSH
-git clone user@host:/path/to/repo.git`}
+                {`git clone user@host:/path/to/repo.git`}
               </CodeBlock>
             </div>
 
             <div>
-              <h3 className="font-bold text-gray-700 mb-2">Clone từ URL HTTPS</h3>
+              <h3 className="font-bold text-gray-700 mb-2">Clone Từ URL HTTPS</h3>
               <CodeBlock>
-                {`# Clone từ GitHub, GitLab
+                {`# Clone từ GitHub
 git clone https://github.com/username/repository.git
+
 
 # Kiểm tra các nhánh remote
 git branch --remote`}
@@ -206,10 +207,24 @@ git branch --remote`}
             Lưu Ý Quan Trọng
           </h2>
           <ul className="list-disc list-inside space-y-2 text-gray-700">
-            <li>Mặc định clone về nhánh hoạt động (active branch)</li>
-            <li>Sử dụng <code className="bg-yellow-100 px-2 py-1 rounded text-yellow-800">git fetch</code> để lấy toàn bộ nhánh</li>
-            <li>Kiểm tra remote bằng lệnh <code className="bg-yellow-100 px-2 py-1 rounded text-yellow-800">git remote -v</code></li>
+            <li>Mặc định sẽ clone về nhánh hoạt động (active branch)</li>
+            <li>Sử dụng <code className="bg-yellow-100 px-2 py-1 rounded text-yellow-800">git fetch</code> để đồng bộ toàn bộ nhánh</li>
+            <li>Kiểm tra kết nối remote bằng lệnh <code className="bg-yellow-100 px-2 py-1 rounded text-yellow-800">git remote -v</code></li>
           </ul>
+        </section>
+
+        <section className="mt-8 bg-blue-50 p-6 rounded-lg">
+          <h2 className="text-2xl font-semibold text-blue-800 flex items-center mb-4">
+            Biến Hành Động Clone Thành Một Cuộc Phiêu Lưu
+          </h2>
+          <p className="text-gray-700">
+            Hãy tưởng tượng bạn là một nhà thám hiểm, và lệnh git clone chính là chiếc chìa khóa mở ra cánh cửa dẫn đến những kho tàng mã nguồn quý giá. Dù là nghiên cứu một dự án mã nguồn mở, học hỏi cách tổ chức repo, hay đóng góp ý tưởng của bạn, git clone luôn là người bạn đồng hành tin cậy.
+
+Bạn đã sẵn sàng thử chưa? Hãy chọn một repo yêu thích và nhập lệnh ngay thôi!
+          </p>
+          <p className="mt-4 text-gray-700 font-bold">
+            Đừng quên! Những video hướng dẫn Git và GitHub có thể là "bảo bối" giúp bạn trở thành cao thủ Git chỉ trong thời gian ngắn. 🚀
+          </p>
         </section>
       </div>
 
@@ -226,18 +241,18 @@ git branch --remote`}
 // DO NOT EDIT ABOVE THIS LINE
 // ============================================================================================ */}
       {/* Danh sách bên phải */}
-      <div className="w-1/4 p-6 bg-gray-100 sticky top-[170px] h-[400px] overflow-y-auto">
-        <h3 className="text-lg font-bold mb-4">Trong Trang Này</h3>
+      <div className="w-1/4 p-6 bg-gray-100 sticky top-[170px] h-[400px] overflow-y-auto GitClone_Sidebar">
+        <h3 className="text-lg font-bold mb-4">On This Page</h3>
         <ul className="space-y-2">
           {headings.map((heading) => (
             <li key={heading.id}>
               <button
                 onClick={() => scrollToSection(heading.id)}
-                className={`w-full text-left ${
+                className={`w-full text-left transition-colors duration-200 ${
                   activeHeadings.includes(heading.id)
                     ? "text-blue-600 font-bold" 
-                    : "text-gray-700"
-                } hover:underline transition-colors duration-200`}
+                    : "text-gray-700 hover:underline"
+                } `}
               >
                 {heading.text}
               </button>
