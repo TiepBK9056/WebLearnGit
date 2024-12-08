@@ -14,8 +14,7 @@ export const handleGitBranchCommand = async (command: string, term: Terminal) =>
       // Liệt kê tất cả các nhánh
       try {
         const branches = await git.listBranches({ fs, dir });
-        const currentBranch = await git.currentBranch({ fs, dir });
-        const headCommit = await git.resolveRef({ fs, dir, ref: 'HEAD' });
+        const currentBranch = await git.currentBranch({ fs, dir }) || 'HEAD';
 
         term.writeln('Git Branches:');
         if (branches.length === 0) {
@@ -23,16 +22,16 @@ export const handleGitBranchCommand = async (command: string, term: Terminal) =>
         } else {
           branches.forEach(branch => {
             if (branch === currentBranch) {
-              // Tô màu xanh cho nhánh hiện tại
-              term.write(`\x1b[32m* ${branch}\x1b[0m\r\n`);
+              term.write(`\x1b[32m* ${branch}\x1b[0m\r\n`); // Màu xanh cho nhánh hiện tại
             } else {
               term.writeln(`  ${branch}`);
             }
           });
 
-          // Nếu HEAD đang ở trạng thái detached, hiển thị hash của commit
+          // Kiểm tra trạng thái HEAD
           if (!currentBranch) {
-            term.write(`\x1b[33m* (HEAD detached at ${headCommit.slice(0, 7)})\x1b[0m\r\n`); // Mã hash màu vàng
+            const headCommit = await git.resolveRef({ fs, dir, ref: 'HEAD' });
+            term.write(`\x1b[33m* (HEAD detached at ${headCommit.slice(0, 7)})\x1b[0m\r\n`);
           }
         }
       } catch (err) {
@@ -52,8 +51,27 @@ export const handleGitBranchCommand = async (command: string, term: Terminal) =>
       } catch (err) {
         term.writeln(`Error: Unable to create branch "${branchName}".`);
       }
+    } else if (args.length === 4 && args[1] === 'branch') {
+      // Tạo nhánh từ mã hash
+      const branchName = args[2];
+      const commitHash = args[3];
+
+      try {
+        // Kiểm tra commit hash có hợp lệ hay không
+        const logs = await git.log({ fs, dir });
+        const matchingCommit = logs.find(log => log.oid.startsWith(commitHash));
+
+        if (!matchingCommit) {
+          term.writeln(`Error: Commit "${commitHash}" not found.`);
+        } else {
+          await git.branch({ fs, dir, ref: branchName, object: matchingCommit.oid });
+          term.writeln(`Branch "${branchName}" created at commit "${matchingCommit.oid}" successfully.`);
+        }
+      } catch (err) {
+        term.writeln(`Error: Unable to create branch "${branchName}" at commit "${commitHash}".`);
+      }
     } else {
-      term.writeln('Usage: git branch [branch-name]');
+      term.writeln('Usage: git branch [branch-name] [commit-hash]');
     }
 
     // Hiển thị dấu `$` màu xanh lá
