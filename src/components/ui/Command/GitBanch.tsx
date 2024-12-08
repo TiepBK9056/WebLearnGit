@@ -14,7 +14,8 @@ export const handleGitBranchCommand = async (command: string, term: Terminal) =>
       // Liệt kê tất cả các nhánh
       try {
         const branches = await git.listBranches({ fs, dir });
-        const currentBranch = await git.currentBranch({ fs, dir }) || 'HEAD';
+        const currentBranch = await git.currentBranch({ fs, dir });
+        const headCommit = await git.resolveRef({ fs, dir, ref: 'HEAD' });
 
         term.writeln('Git Branches:');
         if (branches.length === 0) {
@@ -22,11 +23,17 @@ export const handleGitBranchCommand = async (command: string, term: Terminal) =>
         } else {
           branches.forEach(branch => {
             if (branch === currentBranch) {
-              term.write(`\x1b[32m* ${branch}\x1b[0m\r\n`); // Màu xanh cho nhánh hiện tại
+              // Tô màu xanh cho nhánh hiện tại
+              term.write(`\x1b[32m* ${branch}\x1b[0m\r\n`);
             } else {
               term.writeln(`  ${branch}`);
             }
           });
+
+          // Nếu HEAD đang ở trạng thái detached, hiển thị hash của commit
+          if (!currentBranch) {
+            term.write(`\x1b[33m* (HEAD detached at ${headCommit.slice(0, 7)})\x1b[0m\r\n`); // Mã hash màu vàng
+          }
         }
       } catch (err) {
         term.writeln('Error: Unable to list branches. Make sure this is a valid Git repository.');
