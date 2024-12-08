@@ -218,7 +218,7 @@ git branch --remote`}
             Biến Hành Động Clone Thành Một Cuộc Phiêu Lưu
           </h2>
           <p className="text-gray-700">
-            Hãy tưởng tượng bạn là một nhà thám hiểm, và lệnh git clone chính là chiếc chìa khóa mở ra cánh cửa dẫn đến những kho tàng mã nguồn quý giá. Dù là nghiên cứu một dự án mã nguồn mở, học hỏi cách tổ chức repo, hay đóng góp ý tưởng của bạn, git clone luôn là người bạn đồng hành tin cậy.
+            Hãy tưởng tượng bạn là một nhà thám hiểm, và lệnh <code className="bg-blue-100 px-2 py-1 rounded text-black-800">git clone</code>chính là chiếc chìa khóa mở ra cánh cửa dẫn đến những kho tàng mã nguồn quý giá. Dù là nghiên cứu một dự án mã nguồn mở, học hỏi cách tổ chức repo, hay đóng góp ý tưởng của bạn,<code className="bg-blue-100 px-2 py-1 rounded text-black-800">git clone</code>luôn là người bạn đồng hành tin cậy.
 
 Bạn đã sẵn sàng thử chưa? Hãy chọn một repo yêu thích và nhập lệnh ngay thôi!
           </p>
