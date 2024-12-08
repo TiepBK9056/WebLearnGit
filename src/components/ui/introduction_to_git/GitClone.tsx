@@ -1,48 +1,107 @@
 // ==============================================================
 // DO NOT EDIT BELOW THIS LINE
 // ==============================================================
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState ,useRef  } from "react";
 
-export default function GitClone() {
-  const [headings, setHeadings] = useState<{ id: string; text: string }[]>([]);
+interface HeadingItem {
+  id: string;
+  text: string;
+  level: number;
+}
+
+interface CodeBlockProps {
+  children: React.ReactNode;
+  className?: string;
+}
+
+const BookIcon = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-blue-500">
+    <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
+    <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
+  </svg>
+);
+
+const CopyIcon = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-green-500">
+    <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
+    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+  </svg>
+);
+
+const ServerIcon = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-gray-600">
+    <rect x="2" y="2" width="20" height="8" rx="2" ry="2" />
+    <rect x="2" y="14" width="20" height="8" rx="2" ry="2" />
+    <line x1="6" y1="6" x2="6.01" y2="6" />
+    <line x1="6" y1="18" x2="6.01" y2="18" />
+  </svg>
+);
+
+const LinkIcon = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-yellow-600">
+    <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" />
+    <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" />
+  </svg>
+);
+
+
+const CodeBlock: React.FC<CodeBlockProps> = ({ children, className = '' }) => (
+  <pre className={`bg-gray-200 p-3 rounded text-sm overflow-x-auto ${className}`}>
+    <code>{children}</code>
+  </pre>
+);
+
+
+
+const GitCloneGuide: React.FC = () => {
   const [activeHeadings, setActiveHeadings] = useState<string[]>([]);
+  const sectionRefs = useRef<{ [key: string]: HTMLElement }>({});
+
+  const headings: HeadingItem[] = [
+    { id: 'khai-niem-git-clone', text: 'Khái Niệm Git Clone', level: 2 },
+    { id: 'uu-diem-git-clone', text: 'Ưu Điểm Của Git Clone', level: 2 },
+    { id: 'cach-su-dung-git-clone', text: 'Các Cách Sử Dụng Git Clone', level: 2 },
+    { id: 'luu-y-quan-trong', text: 'Lưu Ý Quan Trọng', level: 2 }
+  ];
 
   useEffect(() => {
-    // Lấy danh sách tiêu đề H2 từ nội dung
-    const contentHeadings = Array.from(document.querySelectorAll("h2")).map(
-      (heading) => ({
-        id: heading.id,
-        text: heading.innerText,
-      })
-    );
-    setHeadings(contentHeadings);
-    console.log(1)
-
-    // Tạo IntersectionObserver
     const observer = new IntersectionObserver(
       (entries) => {
-        // Lọc tất cả các tiêu đề đang hiển thị
-        const visibleEntries = entries
+        const activeIds = entries
           .filter((entry) => entry.isIntersecting)
           .map((entry) => entry.target.id);
-
-        setActiveHeadings(visibleEntries); // Cập nhật tất cả các tiêu đề hiển thị
+        setActiveHeadings(activeIds);
       },
-      {
-        rootMargin: "0px 0px -50% 0px", // Tiêu đề nằm trong viewport
+      { 
+        rootMargin: '-20% 0px -70% 0px',
+        threshold: [0, 0.5, 1] 
       }
     );
 
-    // Theo dõi tất cả tiêu đề H2
-    const headingElements = Array.from(document.querySelectorAll("h2"));
-    headingElements.forEach((heading) => observer.observe(heading));
+    headings.forEach((heading) => {
+      const elem = document.getElementById(heading.id);
+      if (elem) {
+        observer.observe(elem);
+        sectionRefs.current[heading.id] = elem;
+      }
+    });
 
-    // Cleanup observer khi component unmount
-    return () => observer.disconnect();
+    return () => {
+      headings.forEach((heading) => {
+        const elem = document.getElementById(heading.id);
+        if (elem) observer.unobserve(elem);
+      });
+    };
   }, []);
 
+  const scrollToSection = (id: string) => {
+    const element = document.getElementById(id);
+    element?.scrollIntoView({ behavior: 'smooth' });
+  };
   return (
-    <div className="flex">
+    <div className="flex max-w-6xl mx-auto">
+      <div className="flex-grow max-w-4xl pr-8">
+        <header className="mb-8">
 {/* // ============================================================================================
 // DO NOT EDIT ABOVE THIS LINE
 // ============================================================================================         */}
@@ -63,43 +122,112 @@ export default function GitClone() {
         // nội dung css ở đây    
     }
     */}
-      <div className="flex-1 p-6">
-        
-        <h1 className="text-3xl font-bold">Hiện thực trang Git Clone tại Đây</h1>
-        <p className="mt-4">
-          Learn how to fetch data in Next.js using different methods like{" "}
-          <code className="bg-gray-200 rounded px-1">getStaticProps</code>,{" "}
-          <code className="bg-gray-200 rounded px-1">getServerSideProps</code>,
-          and more.
-        </p>
-        <h2 id="getStaticProps" className="text-2xl font-semibold mt-8">
-          Using getStaticProps
-        </h2>
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatibus, incidunt ad vitae sint ipsum eum, ipsam sapiente cumque dignissimos animi maiores repellendus! Totam harum hic debitis voluptatibus esse provident. Tenetur corrupti iusto eos cum laudantium repellat doloribus possimus corporis libero debitis blanditiis consectetur quas sapiente animi, labore nam ipsam delectus, dicta numquam voluptas eveniet nostrum. Beatae unde maxime, vitae sapiente perspiciatis ad commodi impedit eum, numquam tempore suscipit asperiores? Mollitia numquam vel dolorum unde, nostrum sint quod. Expedita totam quidem quis, praesentium velit officia blanditiis repellendus molestiae. Officiis autem soluta numquam ex obcaecati neque, rem a omnis praesentium deleniti, sint consectetur ratione tenetur aperiam sed quisquam corrupti quaerat. Nisi minus aliquid deleniti quo ratione, voluptatum, sit pariatur odio corporis consequatur rerum tenetur quos in, earum amet deserunt. Expedita officiis odio commodi beatae earum architecto soluta? Temporibus ea doloribus quasi quo consectetur laborum impedit nemo ducimus sunt cupiditate voluptatem placeat, optio voluptate id eligendi modi! Totam accusamus nihil illo exercitationem amet temporibus aliquam iusto. Ipsum laudantium aut est aliquid. Assumenda numquam ab nulla soluta culpa voluptatum obcaecati tempora possimus. Vel, animi quod. Vero inventore porro sapiente, error vitae at. Officiis eos nostrum voluptatem animi vero, saepe repellat reprehenderit. Fugit nostrum sint explicabo unde exercitationem voluptatem quidem laudantium perspiciatis maiores distinctio sapiente quo ipsa iusto quasi expedita quam aspernatur dicta nemo, ea eos quod, modi soluta? Sit expedita laudantium nobis aliquam laborum et necessitatibus iure, veniam ducimus esse in impedit modi quidem atque? Id cumque, consequatur pariatur ut a harum voluptatibus expedita optio impedit fugiat repellendus necessitatibus voluptates temporibus commodi veniam magni natus molestiae accusantium, similique esse enim autem. Totam quas officia ducimus adipisci? At reprehenderit eum ducimus voluptates pariatur sequi nobis molestias nostrum sit deserunt. Assumenda sit quibusdam dignissimos? Esse perferendis velit commodi, accusantium quisquam amet impedit. Praesentium amet aut unde?</p>
-        <p className="mt-4">
-          The <code className="bg-gray-200 rounded px-1">getStaticProps</code>{" "}
-          function allows you to fetch data at build time...
-        </p>
-        <h2 id="getServerSideProps" className="text-2xl font-semibold mt-8">
-          Using getServerSideProps
-        </h2>
-        <p className="mt-4">
-          The <code className="bg-gray-200 rounded px-1">getServerSideProps</code>{" "}
-          function allows you to fetch data at request time...
-        </p>
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloribus voluptatem labore hic sequi quisquam dolor. Cumque eos nostrum deserunt magnam. Ut assumenda optio perspiciatis necessitatibus, quo eligendi quisquam laudantium dolorum suscipit rerum placeat a ipsa culpa fuga neque voluptatum, blanditiis reprehenderit, iure facere adipisci non rem ad quam. Quisquam esse harum est incidunt nam velit commodi molestiae fuga molestias laudantium maiores, quasi tempora qui itaque temporibus assumenda quo totam nesciunt eaque doloribus dolorem expedita a voluptates unde. Ipsum architecto incidunt, optio necessitatibus quod voluptates dignissimos non. Dolor ratione natus mollitia atque repellendus rem, asperiores, pariatur eveniet impedit inventore dignissimos aliquam dolorum, ad blanditiis error doloribus odit sequi laboriosam repudiandae. Excepturi quasi sint adipisci optio modi accusamus, quod aut maiores recusandae quibusdam, ipsam doloribus culpa sed consequatur, praesentium iusto illum delectus tempora deleniti unde laudantium nihil quaerat magnam doloremque? Aspernatur, similique neque ipsum expedita sit dignissimos. Itaque numquam amet sed, natus impedit quam fugit neque ducimus nisi, tempora, sapiente ratione eligendi nesciunt animi asperiores illo distinctio possimus. Esse assumenda quasi reiciendis alias, veniam eos vero eum dolore tempore, eveniet quia rerum hic voluptatum quibusdam in consequuntur doloremque. Nam accusantium quae harum a sit commodi eos consequuntur in vero autem voluptas nemo, atque, odio accusamus, cumque dicta culpa ab obcaecati? Quam vel veritatis voluptas, voluptatibus cumque veniam cupiditate velit voluptatum earum error quaerat, recusandae id libero quasi voluptates facere placeat est deleniti. Dolorum facilis, cupiditate optio soluta nulla, nemo sint voluptatem enim ullam quaerat architecto consequatur dicta molestias id harum eos laborum amet nostrum. Excepturi earum, rerum amet repudiandae in asperiores molestias aut necessitatibus totam blanditiis optio at enim quae molestiae velit quaerat numquam perferendis non beatae assumenda eius. Enim praesentium rem, ab fuga delectus corporis tenetur architecto? Enim animi rerum nihil non iusto! Corrupti quod mollitia exercitationem enim id vitae minima!</p>
-        <h2 id="clientFetching" className="text-2xl font-semibold mt-8">
-          Client-Side Fetching
-        </h2>
-        <p className="mt-4">
-          For client-side data fetching, you can use libraries like{" "}
-          <code className="bg-gray-200 rounded px-1">axios</code> or{" "}
-          <code className="bg-gray-200 rounded px-1">fetch</code>.
-        </p>
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Vero, perspiciatis iste. Architecto iste sapiente excepturi quisquam mollitia repellendus assumenda nobis enim? Perferendis, deserunt. Ut distinctio modi laudantium, maiores ab optio, quae corporis atque et, autem obcaecati repudiandae expedita rem. Numquam eveniet quae placeat nostrum. Placeat sed, dignissimos repellendus aperiam eaque laudantium iste repellat obcaecati illo pariatur ipsam corrupti quam, aliquid quo? Odio earum, maiores quas porro facilis ducimus dolores sequi dolorum possimus expedita similique veritatis ullam eius voluptate temporibus tenetur amet inventore illo doloribus numquam dolore sunt sint? Recusandae omnis sequi fugiat nobis suscipit veritatis dolores perferendis. Perferendis commodi rem nisi unde, magnam quibusdam iusto sed! Vitae, porro. Itaque porro ad sit ducimus corporis praesentium, earum ratione tenetur laborum harum suscipit nostrum laboriosam omnis est sunt commodi quo ipsa, necessitatibus nihil voluptate nobis corrupti voluptas facere! Mollitia voluptatem omnis rerum adipisci? Veritatis nam nobis accusantium at culpa iure. Voluptas nisi totam magnam quaerat beatae a quibusdam. Vero ipsa quis amet dolorum nostrum. Modi velit quis fuga dolores architecto perferendis possimus veniam qui voluptatibus odio molestiae quia praesentium optio beatae, aspernatur illo iste unde. Facilis accusamus ex provident, amet alias repellat iure. Doloremque expedita cumque soluta eveniet minima sapiente fugit. Obcaecati nihil aliquid eius, harum doloremque reiciendis quod temporibus, mollitia, error asperiores sunt! Quibusdam est inventore, porro incidunt vel asperiores autem consectetur quod facilis consequatur! Eos magni esse suscipit hic nihil consequuntur rerum numquam nisi quas iure neque magnam velit eaque nemo dolore pariatur veritatis necessitatibus corrupti quam, soluta voluptatem tempore? Reprehenderit fugiat fugit maxime exercitationem accusantium expedita adipisci incidunt corrupti quibusdam fuga quos ab dolores suscipit, earum obcaecati ipsa similique, atque, molestias aperiam totam temporibus ex? Nulla optio quas dolores dolor odit, incidunt adipisci, quasi, magnam iusto aut earum deleniti nisi amet natus ex accusamus illo. Quos ipsam accusantium ullam.</p>
-      
-      
+          <h1 className="text-4xl font-bold text-blue-800 border-b-4 border-blue-500 pb-3">
+            Git Clone: Sao Chép Kho Lưu Trữ
+          </h1>
+          <p className="mt-4 text-gray-600 text-lg">
+            Lệnh `git clone` là một trong những lệnh mạnh mẽ nhất trong Git, cho phép bạn dễ dàng sao chép toàn bộ kho lưu trữ (repository) từ nhiều nguồn khác nhau. Hãy tưởng tượng bạn đang khám phá một dự án thú vị trên GitHub và muốn nghiên cứu hoặc phát triển tiếp - chỉ với một dòng lệnh duy nhất, toàn bộ mã nguồn, lịch sử commit và cấu trúc repository sẽ nằm gọn trong máy của bạn!
+          </p>
+        </header>
+
+        <section id="khai-niem-git-clone" className="grid md:grid-cols-2 gap-6">
+          <div className="bg-blue-50 p-6 rounded-lg">
+            <h2 className="text-2xl font-semibold text-blue-700 flex items-center mb-4">
+              <span className="mr-3"><BookIcon /></span>
+              Git Clone Là Gì?
+            </h2>
+            <p className="text-gray-700">
+              `Git clone` là một công cụ linh hoạt cho phép bạn sao chép toàn bộ repository từ:
+            </p>
+            <ul className="list-disc list-inside mt-2 space-y-2 text-gray-600">
+              <li>Máy remote về máy local</li>
+              <li>Một thư mục này sang thư mục khác</li>
+              <li>URL trên các nền tảng như GitHub, GitLab</li>
+            </ul>
+            <p className="mt-2 text-gray-700">
+              Điều đặc biệt là Git clone tự động thiết lập kết nối với repository gốc, giúp bạn dễ dàng thực hiện các thao tác như pull và push. Kết nối này thường được đặt tên mặc định là `origin`.
+            </p>
+          </div>
+
+          <div id="uu-diem-git-clone" className="bg-green-50 p-6 rounded-lg">
+            <h2 className="text-2xl font-semibold text-green-700 flex items-center mb-4">
+              <span className="mr-3"><CopyIcon /></span>
+              Tại Sao Git Clone Là "Vũ Khí Bí Mật" Của Lập Trình Viên?
+            </h2>
+            <ul className="list-disc list-inside space-y-2 text-gray-700">
+              <li>Tốc độ nhanh chóng: Chỉ một lệnh duy nhất, bạn đã có toàn bộ repository!</li>
+              <li>Linh hoạt tối đa: Clone từ local, remote, hay bất kỳ dịch vụ lưu trữ trực tuyến nào</li>
+              <li>Lịch sử đầy đủ: Sao chép không chỉ mã nguồn mà còn toàn bộ lịch sử commit và nhánh</li>
+            </ul>
+          </div>
+        </section>
+
+        <section id="cach-su-dung-git-clone" className="mt-8 bg-gray-50 p-6 rounded-lg">
+          <h2 className="text-2xl font-semibold text-gray-800 flex items-center mb-4">
+            <span className="mr-3"><ServerIcon /></span>
+            Các Cách Sử Dụng Git Clone
+          </h2>
+          
+          <div className="space-y-4">
+            <div>
+              <h3 className="font-bold text-gray-700 mb-2">Clone từ Thư Mục Local</h3>
+              <CodeBlock>
+                {`# Clone sang thư mục hiện tại
+git clone path-git
+
+# Clone sang thư mục cụ thể
+git clone path-git path-des`}
+              </CodeBlock>
+            </div>
+
+            <div>
+              <h3 className="font-bold text-gray-700 mb-2">Clone Qua SSH</h3>
+              <CodeBlock>
+                {`git clone user@host:/path/to/repo.git`}
+              </CodeBlock>
+            </div>
+
+            <div>
+              <h3 className="font-bold text-gray-700 mb-2">Clone Từ URL HTTPS</h3>
+              <CodeBlock>
+                {`# Clone từ GitHub
+git clone https://github.com/username/repository.git
+
+
+# Kiểm tra các nhánh remote
+git branch --remote`}
+              </CodeBlock>
+            </div>
+          </div>
+        </section>
+
+        <section id="luu-y-quan-trong" className="mt-8 bg-yellow-50 p-6 rounded-lg">
+          <h2 className="text-2xl font-semibold text-yellow-800 flex items-center mb-4">
+            <span className="mr-3"><LinkIcon /></span>
+            Lưu Ý Quan Trọng
+          </h2>
+          <ul className="list-disc list-inside space-y-2 text-gray-700">
+            <li>Mặc định sẽ clone về nhánh hoạt động (active branch)</li>
+            <li>Sử dụng <code className="bg-yellow-100 px-2 py-1 rounded text-yellow-800">git fetch</code> để đồng bộ toàn bộ nhánh</li>
+            <li>Kiểm tra kết nối remote bằng lệnh <code className="bg-yellow-100 px-2 py-1 rounded text-yellow-800">git remote -v</code></li>
+          </ul>
+        </section>
+
+        <section className="mt-8 bg-blue-50 p-6 rounded-lg">
+          <h2 className="text-2xl font-semibold text-blue-800 flex items-center mb-4">
+            Biến Hành Động Clone Thành Một Cuộc Phiêu Lưu
+          </h2>
+          <p className="text-gray-700">
+            Hãy tưởng tượng bạn là một nhà thám hiểm, và lệnh git clone chính là chiếc chìa khóa mở ra cánh cửa dẫn đến những kho tàng mã nguồn quý giá. Dù là nghiên cứu một dự án mã nguồn mở, học hỏi cách tổ chức repo, hay đóng góp ý tưởng của bạn, git clone luôn là người bạn đồng hành tin cậy.
+
+Bạn đã sẵn sàng thử chưa? Hãy chọn một repo yêu thích và nhập lệnh ngay thôi!
+          </p>
+          <p className="mt-4 text-gray-700 font-bold">
+            Đừng quên! Những video hướng dẫn Git và GitHub có thể là "bảo bối" giúp bạn trở thành cao thủ Git chỉ trong thời gian ngắn. 🚀
+          </p>
+        </section>
       </div>
+
 
 
 
@@ -113,21 +241,21 @@ export default function GitClone() {
 // DO NOT EDIT ABOVE THIS LINE
 // ============================================================================================ */}
       {/* Danh sách bên phải */}
-      <div className="w-1/4 p-6 bg-gray-100 sticky top-[170px] h-[400px]">
-        <h3 className="text-lg font-bold mb-4">On this page</h3>
+      <div className="w-1/4 p-6 bg-gray-100 sticky top-[170px] h-[400px] overflow-y-auto GitClone_Sidebar">
+        <h3 className="text-lg font-bold mb-4">On This Page</h3>
         <ul className="space-y-2">
           {headings.map((heading) => (
             <li key={heading.id}>
-              <a
-                href={`#${heading.id}`}
-                className={`${
+              <button
+                onClick={() => scrollToSection(heading.id)}
+                className={`w-full text-left transition-colors duration-200 ${
                   activeHeadings.includes(heading.id)
-                    ? "text-blue-600 font-bold" // Làm nổi bật các tiêu đề đang hiển thị
-                    : "text-gray-700"
-                } hover:underline`}
+                    ? "text-blue-600 font-bold" 
+                    : "text-gray-700 hover:underline"
+                } `}
               >
                 {heading.text}
-              </a>
+              </button>
             </li>
           ))}
         </ul>
@@ -135,6 +263,7 @@ export default function GitClone() {
     </div>
   );
 }
+export default GitCloneGuide;
 // ============================================================================================
 // DO NOT EDIT ABOVE THIS LINE
 // ============================================================================================
