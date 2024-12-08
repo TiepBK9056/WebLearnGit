@@ -60,12 +60,18 @@ const TerminalComponent = () => {
       setWidth(newWidth);
 
       terminalRef.current && term.open(terminalRef.current);
-      term.write("Welcome to the 4Frog group! Type something.\r\n$ ");
+      term.writeln("Welcome to the 4Frog group! Type something.");
+      const greenBoldDollar = '\x1b[1m\x1b[32m$\x1b[0m '; // $ in bold green
+      term.write(greenBoldDollar);
 
       let userInput = '';
       let cursorPosition = 2;
 
       term.onData((data) => {
+        if (data === "\x1b[A" || data === "\x1b[B") { // Mã escape cho ArrowUp và ArrowDown
+          console.log("Arrow key detected and blocked.");
+          return; // Không xử lý thêm
+        }
         if (data === "\r") {
           term.write("\r\n");
           cursorPosition = 0;
@@ -85,6 +91,13 @@ const TerminalComponent = () => {
           term.write(data);
           cursorPosition++;
           userInput += data;
+        }
+      });
+
+      // Ngăn chặn ấn mũi tên lên xuống trong terminal ^_^
+      term.onKey(({ key, domEvent }) => {
+        if (domEvent.key === "ArrowUp" || domEvent.key === "ArrowDown") {
+          domEvent.preventDefault(); // Chặn sự kiện mặc định
         }
       });
 

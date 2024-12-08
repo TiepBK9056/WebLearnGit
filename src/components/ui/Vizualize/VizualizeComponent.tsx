@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
 import React, { useEffect, useState } from 'react';
 import * as d3 from 'd3';
-import { handleGitCommitDataCommand } from '@/components/ui/Command/GitCommitData';
+import { handleGitCommitDataCommand } from '@/components/ui/Command/GitCommitData'; // Import hàm từ file khác
 
 // Khai báo kiểu cho mỗi commit
 interface CommitNode {
@@ -17,15 +17,20 @@ const VizualizeComponent = () => {
   const [commitsData, setCommitsData] = useState<CommitNode[]>([]);
 
   useEffect(() => {
-    // Lấy dữ liệu commit từ Git
-    const fetchCommitData = async () => {
-      setIsLoading(true);
-      const data = await handleGitCommitDataCommand(); // Gọi hàm để lấy dữ liệu
-      setCommitsData(data);
-      setIsLoading(false);
+    // Lấy dữ liệu commit từ hàm bên kia
+    const fetchAllBranchCommits = async () => {
+      try {
+        setIsLoading(true);
+        const allCommits = await handleGitCommitDataCommand(); // Gọi hàm từ file khác
+        setCommitsData(allCommits); // Lưu dữ liệu commit vào state
+      } catch (error) {
+        console.error("Error fetching commits: ", error);
+      } finally {
+        setIsLoading(false);
+      }
     };
 
-    fetchCommitData(); // Gọi hàm fetch khi component mount
+    fetchAllBranchCommits();
   }, []);
 
   useEffect(() => {
@@ -34,11 +39,8 @@ const VizualizeComponent = () => {
       return; // Không thực hiện vẽ nếu không có commit
     }
 
-    // Sắp xếp các commit từ lớn nhất đến nhỏ nhất
-    const sortedCommitsData = [...commitsData].sort((a, b) => b.id.localeCompare(a.id));
-
     // Vẽ cây Git bằng D3.js
-    const root = d3.hierarchy(buildTree(sortedCommitsData), (d: CommitNode) => d.children);
+    const root = d3.hierarchy(buildTree(commitsData), (d: CommitNode) => d.children);
     const width = 900;
     const height = 800;
     const nodeRadius = 30; // Bán kính node
@@ -91,11 +93,11 @@ const VizualizeComponent = () => {
       .style('stroke', '#fff')
       .style('stroke-width', '2px');
 
-    nodes.append('text')
+    nodes.append('text') // Thêm text vào giữa node
       .attr('class', 'node-text')
-      .attr('text-anchor', 'middle')
-      .attr('alignment-baseline', 'middle')
-      .text((d: any) => `${d.data.id}: ${d.data.message}`)
+      .attr('text-anchor', 'middle') // Căn giữa theo chiều ngang
+      .attr('alignment-baseline', 'middle') // Căn giữa theo chiều dọc
+      .text((d: any) => `${d.data.id}: ${d.data.message}`) // Hiển thị ID + Message trong node
       .style('fill', 'white')
       .style('font-size', '12px');
   }, [commitsData]);
