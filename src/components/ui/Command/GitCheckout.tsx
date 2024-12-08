@@ -10,49 +10,36 @@ export const handleGitCheckoutCommand = async (command: string, term: Terminal) 
   try {
     const args = command.trim().split(/\s+/);
     
-    if (args.length < 4) {
-      term.writeln('Usage: git checkout <branch-name>');
+    if (args.length < 3) {
+      term.writeln('Usage: git checkout <branch-name | commit-hash>');
       const greenBoldDollar = '\x1b[1m\x1b[32m$\x1b[0m '; // $ in bold green
       term.write(greenBoldDollar);
       return;
     }
 
-    const branchName = args[3];
+    const branchOrHash = args[2];
     
-    // Đối tượng options cho lệnh checkout
-    const options = {
-      fs,
-      dir,
-      ref: branchName,  // Nhánh cần checkout
-      force: false,     // Ghi đè lên tệp nếu cần
-      dryRun: false,    // Chạy thử mà không thực hiện thay đổi
-      noCheckout: false,  // Cập nhật working directory
-      noUpdateHead: false, // Cập nhật HEAD
-      track: true,        // Theo dõi nhánh remote nếu cần
-    };
+    // Lấy danh sách các nhánh hiện có
+    const branches = await git.listBranches({ fs, dir });
 
-    // Kiểm tra nếu có các tùy chọn bổ sung
-    if (args.includes('--force')) {
-      options.force = true;
+    if (branches.includes(branchOrHash)) {
+      // Nếu tồn tại nhánh, thực hiện checkout
+      await git.checkout({ fs, dir, ref: branchOrHash });
+      term.writeln(`Switched to branch "${branchOrHash}" successfully.`);
+    } else {
+      // Nếu không phải nhánh, kiểm tra mã hash ngắn
+      const logs = await git.log({ fs, dir });
+      const matchingCommit = logs.find(log => log.oid.startsWith(branchOrHash));
+      
+      if (matchingCommit) {
+        // Nếu tìm thấy mã hash, thực hiện checkout
+        await git.checkout({ fs, dir, ref: matchingCommit.oid });
+        term.writeln(`Switched to commit "${matchingCommit.oid}" successfully.`);
+      } else {
+        // Không tìm thấy nhánh hoặc mã hash ngắn
+        term.writeln(`Error: Branch or commit "${branchOrHash}" not found.`);
+      }
     }
-    if (args.includes('--dry-run')) {
-      options.dryRun = true;
-    }
-    if (args.includes('--no-checkout')) {
-      options.noCheckout = true;
-    }
-    if (args.includes('--no-update-head')) {
-      options.noUpdateHead = true;
-    }
-    if (args.includes('--track=false')) {
-      options.track = false;
-    }
-
-    // Thực hiện checkout
-    await git.checkout(options);
-
-    term.writeln(`Switched to branch "${branchName}" successfully.`);
-    
   } catch (error) {
     console.error("Error processing git checkout command: ", error);
     term.writeln('Error: Unable to process git checkout command.');
